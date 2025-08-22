@@ -188,7 +188,7 @@ export default function ManualBookingPage() {
   };
   
   return (
-    <div className="flex-1 bg-gray-50">
+    <div className="flex-1 p-8 overflow-auto">
       <Header user={null} />
       
       <div className="p-6">

@@ -3,13 +3,13 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-700 text-white pt-12 pb-6 px-4">
+    <footer className="bg-yellow-500 text-gray-800 pt-12 pb-6 px-4">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
         <div>
           <div className="flex items-center gap-2 mb-4">
-            <Image src="/images/ramenpresident-logo.png" alt="Logo" width={151} height={42} />
+            <Image src="/images/ramen-president-logo-footer.png" alt="Logo" width={151} height={42} />
           </div>
-          <div className="text-sm mb-4">Taste Justice, Enjoyment for All!</div>
+          <div className="text-sm mb-4">Keadilan Rasa untuk Seluruh Rakyat</div>
           <div className="flex items-center gap-2 mb-2">
             <span className="fa-solid fa-location-dot"></span>
             <span className="text-xs">Jl. Prof. DR. Satrio No.164, Karet Semanggi, Kecamatan Setiabudi, Jakarta, Kota Jakarta Selatan</span>
@@ -44,7 +44,7 @@ export default function Footer() {
           {/* <div className="text-sm mb-2">When an unknown printer took a galley of type and scrambled</div> */}
           <form className="flex mb-3">
             <input type="email" placeholder="Type Your E-mail" className="rounded-l px-3 py-2 bg-amber-100 text-black focus:outline-none" />
-            <button type="submit" className="bg-yellow-400 px-4 rounded-r text-black font-bold">→</button>
+            <button type="submit" className="restaurant-bg px-4 rounded-r text-black font-bold">→</button>
           </form>
           <div className="text-xs mb-2">Download App on Mobile :<br /><span className="font-bold">15% discount on your first purchase</span></div>
           <div className="flex gap-2">
@@ -53,7 +53,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="border-t border-white border-opacity-20 mt-8 pt-4 flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto">
+      <div className="border-t border-red-700 border-opacity-20 mt-8 pt-4 flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto">
         <div className="text-xs">© 2025 Ramen President. All rights reserved. This task was completed by Agus Purwadi as Final Project of RevoU</div>
         <div className="flex gap-2 mt-2 md:mt-0">
           <span className="fa-brands fa-paypal"></span>

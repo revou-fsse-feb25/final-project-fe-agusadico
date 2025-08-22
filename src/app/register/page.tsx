@@ -7,6 +7,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
+import { register as registerApi } from '@/lib/api/auth'
 
 type FormData = {
   name: string
@@ -43,21 +44,29 @@ export default function RegisterPage() {
     setServerError('')
     
     try {
-      const response = await fetch('/api/auth/register', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-      
-      const result = await response.json()
-      
-      if (!response.ok) {
-        setServerError(result.error || 'Registration failed. Please try again.')
+      // Frontend minimal validation (in addition to react-hook-form)
+      if (!data.name || !data.email || !data.password) {
+        setServerError('Name, email, and password are required.')
         setIsSubmitting(false)
         return
       }
+
+      // Call backend API via our auth client
+      const rawPayload = { 
+        name: data.name, 
+        email: data.email, 
+        password: data.password,
+        username: data.username,
+        phone: data.phone,
+        address: data.address,
+        city: data.city,
+        birthday: data.birthday || undefined
+      } as Record<string, unknown>;
+      // Omit empty/undefined optional fields to satisfy backend validators
+      const payload = Object.fromEntries(
+        Object.entries(rawPayload).filter(([, v]) => v !== undefined && v !== '')
+      ) as any;
+      await registerApi(payload)
       
       // Show success message
       setRegisterSuccess(true)
@@ -67,9 +76,10 @@ export default function RegisterPage() {
         router.push('/login')
       }, 2000)
       
-    } catch (error) {
-      console.error('Registration error:', error)
-      setServerError('An unexpected error occurred. Please try again.')
+    } catch (error: any) {
+      console.warn('Registration error:', error)
+      const backendMessage = (error?.payload && (error.payload.message || error.payload.error)) || error?.message
+      setServerError(backendMessage || 'Registration failed. Please try again.')
       setIsSubmitting(false)
     }
   }
@@ -240,7 +250,7 @@ export default function RegisterPage() {
                       <button
                         type="button"
                         className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none"
-                        onClick={togglePasswordVisibility}
+                        onClick={() => setShowPassword(!showPassword)}
                         aria-label={showPassword ? "Hide password" : "Show password"}
                         tabIndex={-1} // Won't disrupt tab navigation
                       >
@@ -282,7 +292,10 @@ export default function RegisterPage() {
                       <button
                         type="button"
                         className="absolute inset-y-0 right-0 pr-3 flex items-center text-gray-500 hover:text-gray-700 focus:outline-none"
-                        onClick={toggleConfirmPasswordVisibility}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setShowConfirmPassword(!showConfirmPassword);
+                        }}
                         aria-label={showConfirmPassword ? "Hide password" : "Show password"}
                         tabIndex={-1} // Won't disrupt tab navigation
                       >
@@ -328,7 +341,7 @@ export default function RegisterPage() {
                   
                   {/* Birthday Field */}
                   <div>
-                    <label htmlFor="birthday" className="block text-sm font-medium text-gray-700 mb-1">
+                    <label htmlFor="birthday" className="block text sm font-medium text-gray-700 mb-1">
                       Birthday
                     </label>
                     <input

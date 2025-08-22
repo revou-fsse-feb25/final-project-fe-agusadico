@@ -9,6 +9,7 @@ import Footer from "../../components/Footer";
 import RelatedProducts from "../../components/RelatedProducts";
 import ProductTabs from "../../components/ProductTabs";
 import { useCart } from "../../context/CartContext";
+import { get as getProduct } from "@/lib/api/products";
 
 // Types
 interface Product {
@@ -26,206 +27,91 @@ interface Product {
   reviewCount: number;
   inStock: boolean;
   relatedProducts: number[];
+  galleryImages?: string[]; 
 }
-
-// This is a mock product data - in a real app, you would fetch this from an API
-const products: Product[] = [
-  {
-    id: 1,
-    name: "Legendary Chicken Ramen",
-    category: "Ramen",
-    price: 12,
-    originalPrice: 14,
-    discount: "5%",
-    image: "/images/menu/Legendary-Chicken-Ramen.jpg",
-    //pack: "12 oz",
-    description:
-      "Rich, flavorful chicken broth paired with premium ramen noodles, juicy grilled chicken, and perfectly cooked egg. Every bowl promises an authentic, legendary ramen experience.",
-    features: [
-      "Slow-cooked chicken broth for deep flavor",
-      "Premium ramen noodles with perfect texture",
-      "Topped with tender grilled chicken & fresh toppings",
-    ],
-    sku: "RAM-001",
-    rating: 4.5,
-    reviewCount: 125,
-    inStock: true,
-    relatedProducts: [2, 3, 4],
-  },
-  {
-    id: 2,
-    name: "Karaage Dry Ramen",
-    category: "Dry Ramen",
-    price: 6,
-    originalPrice: 12,
-    discount: "5%",
-    image: "/images/menu/Karaage-Dry-Ramen.jpg",
-    //pack: "12 oz",
-    description:
-      "Irresistibly crispy Japanese fried chicken atop dry ramen, tossed with a savory, aromatic sauce and fresh garnishes for a bold, modern flavor twist.",
-    features: [
-      "Crispy karaage chicken chunks",
-      "Rich, umami-packed dry sauce",
-      "Fresh veggies & signature Japanese seasoning",
-    ],
-    sku: "DRYRM-001",
-    rating: 4.5,
-    reviewCount: 125,
-    inStock: true,
-    relatedProducts: [1, 3, 4],
-  },
-  {
-    id: 3,
-    name: "Chicken Katsudon",
-    category: "Donburi",
-    price: 10,
-    originalPrice: 12,
-    discount: "5%",
-    image: "/images/menu/Chicken-Katsudon.jpg",
-    //pack: "12 oz",
-    description:
-      "Classic Japanese rice bowl with crispy chicken cutlet, savory-sweet sauce, and fluffy steamed rice. Comforting and satisfying in every bite.",
-    features: [
-      "Golden fried chicken cutlet",
-      "Homemade katsudon sauce",
-      "Served over fluffy Japanese rice",
-    ],
-    sku: "KTSD-001",
-    rating: 4.5,
-    reviewCount: 125,
-    inStock: true,
-    relatedProducts: [1, 2, 4],
-  },
-  {
-    id: 4,
-    name: "Chicken Curry Katsudon",
-    category: "Donburi",
-    price: 10,
-    originalPrice: 12,
-    discount: "5%",
-    image: "/images/menu/Chicken-Curry-Katsudon.jpg",
-    //pack: "12 oz",
-    description:
-      "A fusion of crispy chicken katsu, savory Japanese curry, and steamed rice. Each bowl delivers hearty flavor with a touch of spice.",
-    features: [
-      "Crispy chicken katsu cutlet",
-      "Rich Japanese curry sauce",
-      "Hearty, filling rice bowl meal",
-    ],
-    sku: "KTSD-002",
-    rating: 4.5,
-    reviewCount: 125,
-    inStock: true,
-    relatedProducts: [1, 2, 3],
-  },
-  {
-    id: 5,
-    name: "Seafood Spicy Crunchy Roll",
-    category: "Sushi",
-    price: 40000,
-    originalPrice: 45000,
-    discount: "5%",
-    image: "/images/menu/Seafood-Spicy-Cruncy-Roll.jpg",
-    //pack: "12 oz",
-    description:
-      "A delectable roll packed with fresh seafood, a kick of spice, and a crispy crunch in every bite. Perfect for sushi lovers who crave bold flavor.",
-    features: [
-      "Premium mixed seafood filling",
-      "Crispy tempura crunch topping",
-      "Spicy mayo drizzle for an extra kick",
-    ],
-    sku: "SSH-001",
-    rating: 4.5,
-    reviewCount: 125,
-    inStock: true,
-    relatedProducts: [6, 7, 8],
-  },
-  {
-    id: 6,
-    name: "Mango Yakult",
-    category: "Drinks",
-    price: 40000,
-    originalPrice: 45000,
-    discount: "5%",
-    image: "/images/menu/Mango-Yakult.jpg",
-    //pack: "12 oz",
-    description:
-      "Refreshing blend of sweet mango and tangy Yakult, served cold for a revitalizing, probiotic-packed drink that energizes your day.",
-    features: [
-      "Made with real mango puree",
-      "Probiotic-rich Yakult base",
-      "Naturally sweet & tangy flavor combo",
-    ],
-    sku: "DRK-001",
-    rating: 4.5,
-    reviewCount: 125,
-    inStock: true,
-    relatedProducts: [1, 5, 7],
-  },
-  {
-    id: 7,
-    name: "Nori Gyoza Skin",
-    category: "Agemono & Gyoza",
-    price: 40000,
-    originalPrice: 45000,
-    discount: "5%",
-    image: "/images/menu/Nori-Gyoza-Skin.jpg",
-    //pack: "12 oz",
-    description:
-      "Crispy pan-fried gyoza wrapped in nori-infused skin, filled with juicy chicken and savory spices. Ideal as an appetizer or main dish.",
-    features: [
-      "Unique nori seaweed-infused skin",
-      "Juicy, seasoned chicken filling",
-      "Perfectly crisped for delicious texture",
-    ],
-    sku: "AGM-001",
-    rating: 4.5,
-    reviewCount: 125,
-    inStock: true,
-    relatedProducts: [3, 5, 8],
-  },
-  {
-    id: 8,
-    name: "Seafood Maki Sushi Rolls",
-    category: "Sushi",
-    price: 40000,
-    originalPrice: 45000,
-    discount: "5%",
-    image: "/images/menu/Seafood-Maki-Sushi-Rolls.jpg",
-    //pack: "12 oz",
-    description:
-      "Classic maki sushi rolls featuring a generous portion of fresh seafood, wrapped in vinegared rice and seaweed. A must-try for sushi enthusiasts.",
-    features: [
-      "Fresh mixed seafood selection",
-      "Traditional vinegared sushi rice",
-      "Hand-rolled in premium nori sheets",
-    ],
-    sku: "SSH-002",
-    rating: 4.5,
-    reviewCount: 125,
-    inStock: true,
-    relatedProducts: [5, 6, 7],
-  },
-];
 
 export default function ProductDetail() {
   const params = useParams();
   const productId = Number(params.id);
-  const [loading, setLoading] = useState(false);
-  const product = products.find((p) => p.id === productId) || products[0];
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [product, setProduct] = useState<Product | null>(null);
   const { addToCart } = useCart();
   const [quantity, setQuantity] = useState(1);
   
+  useEffect(() => {
+    const fetchProduct = async () => {
+      try {
+        setLoading(true);
+        setError(null);
+        
+        const apiBase = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') || '';
+        const asAbsolute = (url: string | undefined) => {
+          if (!url) return '/images/menu/Legendary-Chicken-Ramen.jpg';
+          if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('/')) return url;
+          return `${apiBase}/${url.replace(/^\//, '')}`;
+        };
+
+        const data = await getProduct(productId);
+        
+        // Map backend response to Product interface
+        const mapped: Product = {
+          id: (data as any).id ?? (data as any).productId ?? (data as any)._id ?? productId,
+          name: (data as any).name ?? (data as any).title ?? 'Untitled Product',
+          category: (data as any).category ?? (data as any).categoryName ?? 'General',
+          price: Number((data as any).price ?? (data as any).unitPrice ?? 0),
+          originalPrice: (data as any).originalPrice ? Number((data as any).originalPrice) : undefined,
+          discount: (data as any).discount ?? undefined,
+          image: asAbsolute((data as any).image ?? (data as any).imageUrl ?? (data as any).thumbnail),
+          description: (data as any).description ?? 'No description available.',
+          features: (data as any).features ?? [
+            'Premium quality ingredients',
+            'Authentic Japanese recipe',
+            'Carefully prepared and packaged'
+          ],
+          sku: (data as any).sku ?? `PROD-${(data as any).id ?? productId}`,
+          rating: (data as any).rating ?? 4.5,
+          reviewCount: (data as any).reviewCount ?? 0,
+          inStock: (data as any).inStock ?? true,
+          relatedProducts: (data as any).relatedProducts ?? [],
+          galleryImages: (data as any).galleryImages ? 
+            (data as any).galleryImages.map((img: string) => asAbsolute(img)) : 
+            undefined,
+        };
+        
+        setProduct(mapped);
+      } catch (e: any) {
+        console.error('Failed to load product', e);
+        setError('Failed to load product. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (productId) {
+      fetchProduct();
+    }
+  }, [productId]);
+  
   // Create an array of images for the product
-  const productImages = [
+  const productImages = product ? [
     product.image,
-    "/images/menu/legendary-ramen-2.jpg",
-    "/images/menu/legendary-ramen-3.jpg",
-    "/images/menu/legendary-ramen-4.jpg",
-  ];
+    // Use backend gallery images if available, otherwise fallback to main image
+    ...(product.galleryImages && product.galleryImages.length > 0 
+      ? product.galleryImages.slice(0, 3) // Limit to 3 additional images
+      : [product.image, product.image] // Duplicate main image as fallback
+    )
+  ] : [];
   
   // State to track the currently selected image
-  const [selectedImage, setSelectedImage] = useState(productImages[0]);
+  const [selectedImage, setSelectedImage] = useState('');
+  
+  // Update selectedImage when product changes
+  useEffect(() => {
+    if (product && product.image) {
+      setSelectedImage(product.image);
+    }
+  }, [product]);
 
   const incrementQuantity = () => {
     setQuantity((prev) => prev + 1);
@@ -240,15 +126,20 @@ export default function ProductDetail() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        Loading...
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-orange-500"></div>
       </div>
     );
   }
 
-  if (!product) {
+  if (error || !product) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        Product not found
+        <div className="text-center">
+          <p className="text-red-500 text-xl mb-4">{error || 'Product not found'}</p>
+          <Link href="/menu" className="text-blue-600 hover:underline">
+            Return to Menu
+          </Link>
+        </div>
       </div>
     );
   }
@@ -284,32 +175,32 @@ export default function ProductDetail() {
               <div className="md:w-2/5">
                 <div className="sticky top-4">
                   <div className="bg-gray-50 rounded-lg p-4 mb-4 flex items-center justify-center">
-                    <Image
-                      src={selectedImage}
+                    <img
+                      src={selectedImage || "/images/menu/Legendary-Chicken-Ramen.jpg"}
                       alt={product.name}
                       width={400}
                       height={400}
-                      className="object-contain max-h-[400px]"
+                      className="object-contain max-h-[400px] w-auto h-auto"
                     />
                   </div>
                   <div className="grid grid-cols-4 gap-2">
                     {/* Thumbnail images */}
                     {productImages.map((image, index) => (
-                      <div 
-                        key={index}
-                        className={`border rounded p-2 cursor-pointer ${
+                      <div
+                        key={`thumbnail-${index}`}
+                        className={`border rounded-md p-1 cursor-pointer transition-all ${
                           selectedImage === image 
                             ? 'border-red-500' 
                             : 'border-gray-200 hover:border-red-500'
                         }`}
                         onClick={() => setSelectedImage(image)}
                       >
-                        <Image
-                          src={image}
+                        <img
+                          src={image || "/images/menu/Legendary-Chicken-Ramen.jpg"}
                           alt={`Thumbnail ${index + 1}`}
                           width={80}
                           height={80}
-                          className="object-contain"
+                          className="object-contain w-20 h-20"
                         />
                       </div>
                     ))}
@@ -494,7 +385,7 @@ export default function ProductDetail() {
           <ProductTabs product={product} />
 
           {/* Related Products */}
-          <RelatedProducts products={products} />
+          <RelatedProducts products={[product]} />
         </div>
       </div>
 

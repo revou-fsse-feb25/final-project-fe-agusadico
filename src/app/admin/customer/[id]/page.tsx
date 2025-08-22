@@ -86,7 +86,7 @@ export default function CustomerEditPage() {
   // The middleware has already allowed access to this page
 
   return (
-    <div className="flex-1 overflow-auto">
+    <div className="flex-1 p-8 overflow-auto">
       <Header user={user} />
       <div className="p-6">
         <h1 className="text-2xl font-bold mb-6">Update Customer</h1>

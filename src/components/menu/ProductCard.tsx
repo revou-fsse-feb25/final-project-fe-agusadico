@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { ProductType } from "../../types/product";
 
@@ -13,12 +12,11 @@ export default function ProductCard({ product, addToCart }: ProductCardProps) {
       <div className="p-4 relative">
         <div className="relative group">
           <div className="relative h-48 mb-4 flex items-center justify-center bg-gray-50 rounded">
-            <Image 
+            <img 
               src={product.image} 
               alt={product.name} 
-              width={200} 
-              height={200}
-              className="object-contain max-h-full"
+              className="object-contain max-h-full max-w-full"
+              style={{ width: '200px', height: 'auto' }}
             />
           </div>
           {product.discount && (

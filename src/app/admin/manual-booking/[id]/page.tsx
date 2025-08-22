@@ -119,7 +119,7 @@ export default function ManualBookingDetailPage() {
 
   if (!orderData) {
     return (
-      <div className="flex-1 bg-gray-50">
+<div className="flex-1 p-8 overflow-auto">
         <Header user={null} />
         <div className="p-6">
           <div className="flex items-center mb-6">

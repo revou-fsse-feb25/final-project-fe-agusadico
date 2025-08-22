@@ -1,5 +1,6 @@
 'use client'
 
+import { useEffect, useMemo, useState } from "react";
 import { useCart } from "../../context/CartContext";
 import { getFilteredAndSortedProducts } from "../../utils/productUtils";
 import { useMenuFilters } from "../../hooks/useMenuFilters";
@@ -9,6 +10,7 @@ import Breadcrumb from "../../components/menu/Breadcrumb";
 import CategorySidebar from "../../components/menu/CategorySidebar";
 import ProductGrid from "../../components/menu/ProductGrid";
 import { ProductType } from "../../types/product";
+import { listProducts } from "@/lib/api/products";
 
 export default function MenuPage() {
   // Get cart functionality
@@ -26,101 +28,78 @@ export default function MenuPage() {
     handleSortChange
   } = useMenuFilters();
   
-  // Categories with counts
-  const categories = [
-    { name: "Ramen", count: 10 },
-    { name: "Dry Ramen", count: 8 },
-    { name: "Katsu Set", count: 6 },
-    { name: "Donburi", count: 5 },
-    { name: "Sushi", count: 9 },
-    { name: "Agemono & Gyoza", count: 4 },
-    { name: "Drinks", count: 3 },
-    { name: "Topping", count: 7 },
-  ];
-  
-  // Product data
-  const products: ProductType[] = [
-    {
-      id: 1,
-      name: "Legendary Chicken Ramen",
-      category: "Ramen",
-      price: 12.00,
-      originalPrice: 14.00,
-      discount: "14%",
-      image: "/images/menu/Legendary-Chicken-Ramen.jpg",
-      //pack: "12 fl oz, 10 Pack Bottles"
-    },
-    {
-      id: 2,
-      name: "Karaage Dry Ramen",
-      category: "Dry Ramen",
-      price: 6.00,
-      originalPrice: 12.00,
-      discount: "50%",
-      image: "/images/menu/Karaage-Dry-Ramen.jpg",
-      //pack: "12 fl oz, 10 Pack Bottles"
-    },
-    {
-      id: 3,
-      name: "Chicken Katsudon",
-      category: "Donburi",
-      price: 14.00,
-      originalPrice: 16.00,
-      discount: "13%",
-      image: "/images/menu/Chicken-Katsudon.jpg",
-      //pack: "12 fl oz, 10 Pack Bottles"
-    },
-    {
-      id: 4,
-      name: "Chicken Curry Katsudon",
-      category: "Donburi",
-      price: 14.00,
-      originalPrice: 16.00,
-      discount: "13%",
-      image: "/images/menu/Chicken-Curry-Katsudon.jpg",
-      //pack: "12 fl oz, 10 Pack Bottles"
-    },
-    {
-      id: 5,
-      name: "Seafood Spicy Crunchy Roll", // Fixed typo from "Cruncy" to "Crunchy"
-      category: "Sushi",
-      price: 10.00,
-      originalPrice: 14.00,
-      discount: "29%",
-      image: "/images/menu/Seafood-Spicy-Cruncy-Roll.jpg",
-      //pack: "12 fl oz, 10 Pack Bottles"
-    },
-    {
-      id: 6,
-      name: "Mango Yakult", 
-      category: "Drinks",
-      price: 34.00,
-      originalPrice: 44.00,
-      discount: "23%",
-      image: "/images/menu/Mango-Yakult.jpg",
-      //pack: "12 Count"
-    },
-    {
-      id: 7,
-      name: "Nori Gyoza Skin",
-      category: "Agemono & Gyoza",
-      price: 15.00,
-      originalPrice: 20.00,
-      discount: "25%",
-      image: "/images/menu/Nori-Gyoza-Skin.jpg",
-      //pack: "52 Fl Oz Bottle"
-    },
-    {
-      id: 8,
-      name: "Seafood Maki Sushi Rolls",
-      category: "Sushi",
-      price: 22.00,
-      originalPrice: undefined, // Changed from null to undefined
-      discount: undefined, // Changed from null to undefined
-      image: "/images/menu/Seafood-Maki-Sushi-Rolls.jpg",
-      //pack: "3.75 oz Canister"
-    },
-  ];
+  // Product data from backend
+  const [products, setProducts] = useState<ProductType[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    const loadProducts = async () => {
+      try {
+        setIsLoading(true);
+        setError(null);
+        const data = await listProducts();
+        // Map backend response to ProductType if necessary
+        const apiBase = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, '') || '';
+        const asAbsolute = (url: string | undefined) => {
+          if (!url) return '/images/menu/Legendary-Chicken-Ramen.jpg';
+          if (url.startsWith('http://') || url.startsWith('https://') || url.startsWith('/')) return url;
+          return `${apiBase}/${url.replace(/^\//, '')}`;
+        };
+
+        const mapped: ProductType[] = data.map((p: any) => ({
+          id: p.id ?? p.productId ?? p._id ?? 0,
+          name: p.name ?? p.title ?? 'Untitled',
+          category: p.category ?? p.categoryName ?? 'General',
+          price: Number(p.price ?? p.unitPrice ?? 0),
+          originalPrice: p.originalPrice ? Number(p.originalPrice) : undefined,
+          discount: p.discount ?? undefined,
+          image: asAbsolute(p.image ?? p.imageUrl ?? p.thumbnail),
+          description: p.description,
+          sku: p.sku,
+          rating: p.rating,
+          reviewCount: p.reviewCount,
+          inStock: p.inStock,
+          relatedProducts: p.relatedProducts,
+          slug: p.slug,
+          categories: p.categories,
+          galleryImages: p.galleryImages,
+          tags: p.tags,
+        }));
+        setProducts(mapped);
+      } catch (e: any) {
+        console.error('Failed to load products', e);
+        setError('Failed to load products. Please try again.');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadProducts();
+  }, []);
+
+  // Categories with counts, derived from products
+  const categories = useMemo(() => {
+    const counts: Record<string, number> = {};
+    for (const p of products) {
+      const key = p.category || 'General';
+      counts[key] = (counts[key] || 0) + 1;
+    }
+    const list = Object.entries(counts).map(([name, count]) => ({ name, count }));
+    // Fallback to common categories if none loaded yet
+    if (list.length === 0) {
+      return [
+        { name: "Ramen", count: 0 },
+        { name: "Dry Ramen", count: 0 },
+        { name: "Katsu Set", count: 0 },
+        { name: "Donburi", count: 0 },
+        { name: "Sushi", count: 0 },
+        { name: "Agemono & Gyoza", count: 0 },
+        { name: "Drinks", count: 0 },
+        { name: "Topping", count: 0 },
+      ];
+    }
+    return list;
+  }, [products]);
 
   // Get filtered and sorted products
   const filteredAndSortedProducts = getFilteredAndSortedProducts(
@@ -158,14 +137,22 @@ export default function MenuPage() {
             />
 
             {/* Product Grid */}
-            <ProductGrid 
-              products={filteredAndSortedProducts}
-              searchQuery={debouncedSearchQuery}
-              categoryParam={categoryParam}
-              sortParam={sortParam}
-              handleSortChange={handleSortChange}
-              addToCart={addToCart}
-            />
+            {isLoading ? (
+              <div className="flex-1 flex items-center justify-center py-12">
+                <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-orange-500"></div>
+              </div>
+            ) : error ? (
+              <div className="flex-1 text-center text-red-500 py-8">{error}</div>
+            ) : (
+              <ProductGrid 
+                products={filteredAndSortedProducts}
+                searchQuery={debouncedSearchQuery}
+                categoryParam={categoryParam}
+                sortParam={sortParam}
+                handleSortChange={handleSortChange}
+                addToCart={addToCart}
+              />
+            )}
           </div>
         </div>
       </div>

@@ -30,7 +30,7 @@ export default function Header({ user }: HeaderProps) {
   
   return (
     <header className="flex justify-between items-center">
-      <div>
+<div className="flex-1 p-8 overflow-auto">
         <h1 className="text-2xl font-bold">Admin Page</h1>
         <div className="flex items-center mt-1">
           <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-400" viewBox="0 0 20 20" fill="currentColor">

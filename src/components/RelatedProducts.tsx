@@ -42,12 +42,12 @@ export default function RelatedProducts({ products, fallbackProducts }: RelatedP
             <div className="p-4 relative">
               <div className="relative group">
                 <div className="relative h-48 mb-4 flex items-center justify-center bg-gray-50 rounded">
-                  <Image 
-                    src={product.image} 
-                    alt={product.name} 
-                    width={150} 
+                  <img
+                    src={product.image || "/images/menu/Legendary-Chicken-Ramen.jpg"}
+                    alt={product.name}
+                    width={150}
                     height={150}
-                    className="object-contain max-h-full"
+                    className="object-contain w-[150px] h-[150px]"
                   />
                 </div>
               </div>
