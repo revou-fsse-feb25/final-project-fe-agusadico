@@ -122,11 +122,11 @@ export default function RegisterPage() {
         </div>
         
         {/* Right Column - White Background with Form */}
-        <div className="w-full lg:w-1/2 bg-white">
+        <div className="w-full lg:w-1/2 content-body">
           <div className="min-h-screen p-6 md:p-8 lg:p-12">
             <div className="max-w-md mx-auto">
-              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 mb-6 mt-20">REGISTER</h2>
-              <p className="text-gray-600 mb-8">
+              <h2 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-white mb-6 mt-20">REGISTER</h2>
+              <p className="text-gray-600 dark:text-gray-300 mb-8">
                 Create your account to order and track your favorite meals
               </p>
               

@@ -149,9 +149,9 @@ const MenuCard = () => {
   };
 
   return (
-    <div className="py-16 bg-white">
+    <div className="py-16 content-body">
       <div className="max-w-7xl mx-auto px-4">
-        <h2 className="text-5xl font-bold text-center mb-12 text-gray-600">Favorite Menu</h2>
+        <h2 className="text-5xl font-bold text-center mb-12 text-gray-600 dark:text-white">Favorite Menu</h2>
         
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-7 gap-4 justify-items-center">
           {/* All */}
@@ -160,11 +160,11 @@ const MenuCard = () => {
             onClick={() => setActiveCategory('ALL')}
           >
             <div className="w-16 h-16 flex items-center justify-center mb-2">
-              <div className={`${activeCategory === 'ALL' ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}>
+              <div className={`${activeCategory === 'ALL' ? 'text-yellow-500' : 'text-gray-400 dark:text-white hover:text-red-500'}`}>
                 {renderCategoryIcon('ALL')}
               </div>
             </div>
-            <span className={`font-medium ${activeCategory === 'ALL' ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}>All</span>
+            <span className={`font-medium ${activeCategory === 'ALL' ? 'text-yellow-500' : 'text-gray-400 dark:text-white hover:text-red-500'}`}>All</span>
           </div>
           {categories.map((cat) => (
             <div 
@@ -173,11 +173,11 @@ const MenuCard = () => {
               onClick={() => setActiveCategory(cat)}
             >
               <div className="w-16 h-16 flex items-center justify-center mb-2">
-                <div className={`${activeCategory === cat ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}>
+                <div className={`${activeCategory === cat ? 'text-red-500' : 'text-gray-400 dark:text-white hover:text-red-500'}`}>
                   {renderCategoryIcon(cat)}
                 </div>
               </div>
-              <span className={`font-medium ${activeCategory === cat ? 'text-red-500' : 'text-gray-400 hover:text-red-500'}`}>{cat}</span>
+              <span className={`font-medium ${activeCategory === cat ? 'text-red-500' : 'text-gray-400 dark:text-white hover:text-red-500'}`}>{cat}</span>
             </div>
           ))}
         </div>
@@ -193,7 +193,7 @@ const MenuCard = () => {
           ) : filteredProducts.length > 0 ? (
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {filteredProducts.map((product) => (
-                <div key={product.id} className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
+                <div key={product.id} className="bg-white dark:bg-gray-800 rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
                   <div className="p-6">
                     <div className="relative w-full h-84 mb-4">
                       <img 
@@ -202,8 +202,8 @@ const MenuCard = () => {
                         className="rounded-3xl w-full h-full object-contain"
                       />
                     </div>
-                    <h3 className="text-xl font-bold mb-2 text-gray-500">{product.name}</h3>
-                    <p className="text-gray-500 mb-4">{product.description}</p>
+                    <h3 className="text-xl font-bold mb-2 text-gray-500 dark:text-gray-300">{product.name}</h3>
+                    <p className="text-gray-500 dark:text-gray-400 mb-4">{product.description}</p>
                     <div className="flex justify-between items-center">
                       <span className="text-red-500 font-bold text-xl">${product.price.toFixed(2)}</span>
                       <button 
@@ -230,7 +230,7 @@ const MenuCard = () => {
             </div>
           ) : (
             <div className="text-center py-8">
-              <p className="text-gray-500 text-xl">No items found in this category.</p>
+              <p className="text-gray-500 dark:text-gray-400 text-xl">No items found in this category.</p>
             </div>
           )}
         </div>

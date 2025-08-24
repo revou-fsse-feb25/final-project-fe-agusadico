@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useState, useEffect } from "react";
 import { useCart } from "../context/CartContext";
 import Image from 'next/image'
+import ThemeToggle from './ThemeToggle'
 
 export default function Navbar() {
   const [showAboutSubmenu, setShowAboutSubmenu] = useState(false);
@@ -33,7 +34,6 @@ export default function Navbar() {
     <nav className={`restaurant-bg py-4 px-4 fixed top-0 left-0 w-full z-50 transition-all duration-300 ${isScrolled ? 'shadow-lg' : ''}`}>
       <div className="max-w-7xl mx-auto flex justify-between items-center">
         <div className="flex items-center gap-2">
-          {/* <h1 className="text-2xl font-bold text-white">Butazzo Pizza</h1> */}
           <div className="mb-2 flex justify-center">
               <Image 
                 src="/images/ramenpresident-logo.png" 
@@ -46,11 +46,11 @@ export default function Navbar() {
             </div>
         </div>
         <div className="hidden md:flex items-center gap-6 mx-auto">
-          <Link href="/">Home</Link>
-          <Link href="/menu">Menu</Link>
+          <Link href="/" className="text-white hover:text-gray-200 transition-colors">Home</Link>
+          <Link href="/menu" className="text-white hover:text-gray-200 transition-colors">Menu</Link>
           <div className="relative">
             <button 
-              className="flex items-center gap-1"
+              className="flex items-center gap-1 text-white hover:text-gray-200 transition-colors"
               onMouseEnter={() => setShowAboutSubmenu(true)}
               onMouseLeave={() => setShowAboutSubmenu(false)}
             >
@@ -61,20 +61,21 @@ export default function Navbar() {
             </button>
             {showAboutSubmenu && (
               <div 
-                className="absolute top-full left-0 bg-white text-black py-2 px-4 rounded shadow-md z-10 min-w-[120px]"
+                className="absolute top-full left-0 bg-white dark:bg-gray-800 text-black dark:text-white py-2 px-4 rounded shadow-md z-10 min-w-[120px] border border-gray-200 dark:border-gray-700"
                 onMouseEnter={() => setShowAboutSubmenu(true)}
                 onMouseLeave={() => setShowAboutSubmenu(false)}
               >
                 <div className="flex flex-col gap-2">
-                  <Link href="/faq" className="hover:text-red-600">FAQ</Link>
-                  <Link href="/event" className="hover:text-red-600">Event</Link>
+                  <Link href="/faq" className="hover:text-red-600 dark:hover:text-red-400 transition-colors">FAQ</Link>
+                  <Link href="/event" className="hover:text-red-600 dark:hover:text-red-400 transition-colors">Event</Link>
                 </div>
               </div>
             )}
           </div>
-          <Link href="/contact">Contact</Link>
+          <Link href="/contact" className="text-white hover:text-gray-200 transition-colors">Contact</Link>
         </div>
         <div className="flex items-center gap-3">
+          <ThemeToggle />
           <div className="flex items-center gap-2">
             <div className="flex items-center gap-1">
               <svg className="h-5 w-5 text-gray-300" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">

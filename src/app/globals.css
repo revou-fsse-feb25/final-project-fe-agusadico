@@ -10,13 +10,19 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --dark-mode-bg: #b30000; /* Maroon red for dark mode */
+  --dark-mode-card-bg: #f0b100; /* Yellow for card background in dark mode */
+  --dark-mode-button-bg: #b30000; /* Red for buttons in dark mode */
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+.dark {
+  --background: #000000;
+  --foreground: #ffffff;
+  --primary-color: #b30000; /* Keep primary color consistent */
+  --secondary-color: #ffffff;
+  --accent-color: #ffcc00; /* Keep accent color consistent */
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
 }
 
 body {
@@ -25,6 +31,123 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   margin: 0;
   padding: 0;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Content body styling */
+.content-body {
+  background-color: #ffffff;
+  color: #000000;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dark .content-body {
+  background-color: var(--dark-mode-bg); /* Maroon red background */
+  color: #ffffff; /* White text */
+}
+
+/* Card styling for dark mode */
+.dark .bg-white.dark\:bg-gray-800,
+.dark .bg-white.dark\:bg-gray-700,
+.dark [class*="card"],
+.dark [class*="Card"] {
+  background-color: var(--dark-mode-card-bg) !important; /* Yellow background */
+  color: #000000 !important; /* Black text */
+}
+
+/* Button styling for dark mode */
+.dark button,
+.dark .btn,
+.dark [class*="button"],
+.dark [class*="Button"] {
+  background-color: var(--dark-mode-button-bg) !important; /* Red background */
+  color: #ffffff !important; /* White text */
+}
+
+/* Preserve certain buttons that should maintain their original styling */
+.dark .preserve-button {
+  background-color: inherit !important;
+  color: inherit !important;
+}
+
+/* Homepage text color in dark mode */
+.dark body:has([href="/"]) * {
+  color: #ffffff !important;
+}
+
+/* Homepage text color in dark mode - more specific selectors */
+.dark .restaurant-bg h2,
+.dark .restaurant-bg p,
+.dark .restaurant-bg span {
+  color: #ffffff !important;
+}
+
+/* Keep the existing yellow color for the motto in dark mode */
+.dark body:has([href="/"]) h2 {
+  color: #f0b100 !important;
+}
+
+/* Text styling for dark mode in product cards */
+.dark .bg-white.dark\:bg-gray-800 h1, 
+.dark .bg-white.dark\:bg-gray-800 h2, 
+.dark .bg-white.dark\:bg-gray-800 h3, 
+.dark .bg-white.dark\:bg-gray-800 h4, 
+.dark .bg-white.dark\:bg-gray-800 h5, 
+.dark .bg-white.dark\:bg-gray-800 h6, 
+.dark .bg-white.dark\:bg-gray-800 p, 
+.dark .bg-white.dark\:bg-gray-800 span, 
+.dark .bg-white.dark\:bg-gray-800 div:not(button), 
+.dark .bg-white.dark\:bg-gray-800 li,
+.dark .bg-white.dark\:bg-gray-800 label,
+.dark [class*="card"] h1,
+.dark [class*="card"] h2,
+.dark [class*="card"] h3,
+.dark [class*="card"] h4,
+.dark [class*="card"] h5,
+.dark [class*="card"] h6,
+.dark [class*="card"] p,
+.dark [class*="card"] span,
+.dark [class*="card"] div:not(button),
+.dark [class*="card"] li,
+.dark [class*="card"] label,
+.dark [class*="Card"] h1,
+.dark [class*="Card"] h2,
+.dark [class*="Card"] h3,
+.dark [class*="Card"] h4,
+.dark [class*="Card"] h5,
+.dark [class*="Card"] h6,
+.dark [class*="Card"] p,
+.dark [class*="Card"] span,
+.dark [class*="Card"] div:not(button),
+.dark [class*="Card"] li,
+.dark [class*="Card"] label {
+  color: #000000 !important;
+}
+
+/* Specific styling for product cards */
+.dark .bg-white.dark\:bg-gray-800.border.border-gray-100.dark\:border-gray-700 {
+  background-color: var(--dark-mode-card-bg) !important; /* Yellow background */
+  color: #000000 !important; /* Black text */
+  border-color: #f0b100 !important; /* Match border to background */
+}
+
+/* Specific styling for text elements in product cards */
+.dark .text-gray-900.dark\:text-gray-100,
+.dark .text-gray-400.dark\:text-gray-500,
+.dark .text-gray-500.dark\:text-gray-400 {
+  color: #000000 !important; /* Black text */
+}
+
+/* Specific styling for "Add To Cart" buttons */
+.dark .bg-\[var\(--primary-color\)\] {
+  background-color: var(--dark-mode-button-bg) !important; /* Red background */
+  color: #ffffff !important; /* White text */
+}
+
+/* Specific styling for "View Detail" buttons */
+.dark .bg-gray-200.dark\:bg-gray-600 {
+  background-color: var(--dark-mode-button-bg) !important; /* Red background */
+  color: #ffffff !important; /* White text */
 }
 
 .restaurant-bg {
@@ -65,4 +188,136 @@ body {
   position: absolute;
   top: 20px;
   right: 20px;
+}
+
+/* Receipt Print Styles */
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  
+  .receipt-container,
+  .receipt-container * {
+    visibility: visible;
+  }
+  
+  .receipt-container {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 20px;
+    background: white;
+    color: black;
+    font-size: 12px;
+  }
+  
+  .receipt-container img {
+    max-width: 120px;
+    height: auto;
+  }
+}
+
+/* Force white text for Favorite Menu heading in dark mode */
+.dark .content-body h2 {
+  color: #ffffff !important;
+}
+
+/* Checkout page customer info section in dark mode - stronger selectors */
+.dark body:has([href="/checkout"]) .bg-white,
+.dark body:has([href="/checkout"]) .bg-gray-800,
+.dark body:has([href="/checkout"]) [class*="bg-white"] {
+  background-color: #f0b100 !important;
+}
+
+
+.dark body:has([href="/checkout"]) .bg-white *,
+.dark body:has([href="/checkout"]) .bg-gray-800 *,
+.dark body:has([href="/checkout"]) [class*="bg-white"] * {
+  color: #000000 !important;
+}
+
+/* Additional specific selectors for checkout page text */
+.dark body:has([href="/checkout"]) .text-gray-900,
+.dark body:has([href="/checkout"]) .text-gray-100,
+.dark body:has([href="/checkout"]) .text-gray-800,
+.dark body:has([href="/checkout"]) .text-gray-200,
+.dark body:has([href="/checkout"]) .text-gray-500,
+.dark body:has([href="/checkout"]) .text-gray-400,
+.dark body:has([href="/checkout"]) h2,
+.dark body:has([href="/checkout"]) h3,
+.dark body:has([href="/checkout"]) p {
+  color: #000000 !important;
+}
+
+/* Contact page styling in dark mode */
+.dark body:has([href="/contact"]) .bg-white,
+.dark [href="/contact"] ~ * .bg-white {
+  background-color: #f0b100 !important;
+}
+
+.dark body:has([href="/contact"]) .bg-white *:not(button),
+.dark [href="/contact"] ~ * .bg-white *:not(button) {
+  color: #000000 !important;
+}
+
+/* Ensure form inputs and text in contact page are black in dark mode */
+.dark body:has([href="/contact"]) input,
+.dark body:has([href="/contact"]) textarea,
+.dark body:has([href="/contact"]) h2,
+.dark body:has([href="/contact"]) h3,
+.dark body:has([href="/contact"]) p:not(.text-xl),
+.dark body:has([href="/contact"]) label {
+  color: #000000 !important;
+}
+
+/* Make "We'd love to hear from you" text white in dark mode */
+.dark body:has([href="/contact"]) p.text-xl {
+  color: #ffffff !important;
+}
+
+/* FAQ page styling in dark mode - direct approach */
+/* Make the left sidebar yellow in dark mode */
+.dark .content-body .bg-red-600,
+.dark .content-body .bg-red-700 {
+  background-color: #f0b100 !important;
+  span.text-lg {
+    color: #000000 !important;
+  }
+}
+
+/* Make the right content area yellow in dark mode */
+.dark .content-body .bg-yellow-400,
+.dark .content-body .bg-yellow-500 {
+  background-color: #f0b100 !important;
+}
+
+/* Make the description text white in dark mode */
+.dark .restaurant-bg p.text-xl {
+  color: #ffffff !important;
+}
+
+/* Force all accordion items to be yellow in dark mode */
+.dark .content-body [role="button"] {
+  background-color: #f0b100 !important;
+}
+
+.dark body:has([href="/faq"]) span.text-lg {
+  color: #ffffff !important;
+}
+
+.dark body:has([href="/faq"]) p.text-lg {
+  color: #ffffff !important;
+}
+
+/* Ensure all text in accordion items is black */
+.dark .content-body [role="button"] * {
+  color: #000000 !important;
+}
+
+/* Special styling for the motto text in dark mode */
+.dark .restaurant-bg h2.text-5xl {
+  color: #f0b100 !important;
 }

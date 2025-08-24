@@ -32,10 +32,10 @@ export default function AboutContent() {
     <div className="flex-1 py-12">
       <div className="container mx-auto px-4 max-w-6xl">
         <div className="mb-12">
-          <p className="text-lg text-gray-700 mb-6">
+          <p className="text-lg text-gray-700 dark:text-gray-300 mb-6">
             Welcome to Ramen President, where passion for authentic flavors meets exceptional dining experiences. Since our founding in 2025, we've been dedicated to bringing the finest quality food to our customers.
           </p>
-          <p className="text-lg text-gray-700">
+          <p className="text-lg text-gray-700 dark:text-gray-300">
             Our journey began with a simple idea: to create a restaurant that serves delicious food made from the freshest ingredients in a welcoming atmosphere. Today, we're proud to have grown into a beloved establishment with multiple locations while staying true to our original vision.
           </p>
         </div>
@@ -76,7 +76,7 @@ export default function AboutContent() {
           </div>
           
           {/* Right content area */}
-          <div className="md:col-span-3 bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+          <div className="md:col-span-3 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700">
             {renderContent()}
           </div>
         </div>

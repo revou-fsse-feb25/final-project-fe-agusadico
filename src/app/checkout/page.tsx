@@ -130,19 +130,19 @@ export default function CheckoutPage() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col content-body">
       {/* Navigation */}
       <Navbar />
       
       {/* Breadcrumb */}
-      <div className="border-b border-gray-200 py-4 mt-25">
+      <div className="border-b border-gray-200 dark:border-gray-700 py-4 mt-25">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center text-sm text-gray-600">
+          <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
             <Link href="/" className="hover:text-red-600">Home</Link>
             <span className="mx-2">›</span>
             <Link href="/cart" className="hover:text-red-600">Cart</Link>
             <span className="mx-2">›</span>
-            <span className="text-gray-800">Checkout</span>
+            <span className="text-gray-800 dark:text-gray-200">Checkout</span>
           </div>
         </div>
       </div>
@@ -154,7 +154,7 @@ export default function CheckoutPage() {
             {/* Back button */}
             <div className="w-full md:w-auto mb-4 md:mb-0">
               <Link href="/cart">
-                <button className="flex items-center text-gray-600 hover:text-red-600">
+                <button className="flex items-center text-gray-600 dark:text-gray-400 hover:text-red-600">
                   <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                   </svg>
@@ -182,13 +182,13 @@ export default function CheckoutPage() {
               />
               
               {/* Order List - Moved here from Payment Detail section */}
-              <div className="bg-white p-6 rounded-lg shadow-sm mt-6">
-                <h2 className="text-xl font-bold mb-4">ORDER LIST</h2>
+              <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm mt-6">
+                <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">ORDER LIST</h2>
                 
                 {cartItems.map((item) => (
-                  <div key={item.product.id} className="flex items-center justify-between py-3 border-b border-gray-200">
+                  <div key={item.product.id} className="flex items-center justify-between py-3 border-b border-gray-200 dark:border-gray-600">
                     <div className="flex items-center">
-                      <div className="w-16 h-16 bg-gray-100 rounded-md overflow-hidden mr-3 relative">
+                      <div className="w-16 h-16 bg-gray-100 dark:bg-gray-700 rounded-md overflow-hidden mr-3 relative">
                         <img 
                           src={item.product.image} 
                           alt={item.product.name} 
@@ -196,27 +196,27 @@ export default function CheckoutPage() {
                         />
                       </div>
                       <div>
-                        <h3 className="font-medium">{item.product.name}</h3>
+                        <h3 className="font-medium text-gray-900 dark:text-gray-100">{item.product.name}</h3>
                         {/* <p className="text-sm text-gray-500">{item.product.pack || 'Standard'}</p> */}
                       </div>
                     </div>
                     <div className="flex items-center">
-                      <div className="flex items-center border border-gray-300 rounded-md mr-4">
+                      <div className="flex items-center border border-gray-300 dark:border-gray-600 rounded-md mr-4">
                         <button 
-                          className="px-2 py-1 text-gray-600"
+                          className="px-2 py-1 text-gray-600 dark:text-gray-400"
                           onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
                         >
                           -
                         </button>
-                        <span className="px-2 py-1 border-x border-gray-300">{item.quantity}</span>
+                        <span className="px-2 py-1 border-x border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100">{item.quantity}</span>
                         <button 
-                          className="px-2 py-1 text-gray-600"
+                          className="px-2 py-1 text-gray-600 dark:text-gray-400"
                           onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
                         >
                           +
                         </button>
                       </div>
-                      <span className="font-medium">${(item.product.price * item.quantity).toFixed(2)}</span>
+                      <span className="font-medium text-gray-900 dark:text-gray-100">${(item.product.price * item.quantity).toFixed(2)}</span>
                     </div>
                   </div>
                 ))}
@@ -230,11 +230,11 @@ export default function CheckoutPage() {
                   </button>
                 </div>
                 
-                <div className="mt-4 p-3 bg-gray-50 rounded-md border border-gray-200 flex items-center">
+                <div className="mt-4 p-3 bg-gray-50 dark:bg-gray-700 rounded-md border border-gray-200 dark:border-gray-600 flex items-center">
                   <svg className="w-5 h-5 text-red-600 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
                   </svg>
-                  <span className="text-sm">Purchase more to get FREE PRODUCT.</span>
+                  <span className="text-sm text-gray-900 dark:text-gray-100">Purchase more to get FREE PRODUCT.</span>
                   <button className="text-red-600 text-sm font-medium ml-auto">More Details</button>
                 </div>
               </div>
@@ -242,18 +242,18 @@ export default function CheckoutPage() {
             
             {/* Payment Detail */}
             <div className="lg:w-1/2">
-              <div className="sticky top-30 bg-white p-6 rounded-lg shadow-sm transition-all duration-300">
+              <div className="sticky top-30 bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm transition-all duration-300">
                 {/* Add BookingTime component here, above the Payment Detail heading */}
                 <BookingTime 
                   defaultMode="NOW"
                   onChange={handleBookingTimeChange}
                 />
                 
-                <h2 className="text-xl font-bold mb-4">PAYMENT DETAIL</h2>
+                <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">PAYMENT DETAIL</h2>
                 
                 <div className="mb-4">
-                  <div className="flex justify-between items-center p-3 border border-gray-300 rounded-md">
-                    <span>{paymentMethod ? getPaymentMethodName(paymentMethod) : "Select payment method"}</span>
+                  <div className="flex justify-between items-center p-3 border border-gray-300 dark:border-gray-600 rounded-md">
+                    <span className="text-gray-900 dark:text-gray-100">{paymentMethod ? getPaymentMethodName(paymentMethod) : "Select payment method"}</span>
                     <button 
                       onClick={() => setShowPaymentModal(true)} 
                       className="text-red-600 font-medium"
@@ -263,23 +263,23 @@ export default function CheckoutPage() {
                   </div>
                 </div>
                 
-                <div className="border-t border-gray-200 pt-4">
-                  <div className="flex justify-between mb-2">
-                    <span className="text-gray-600">Tax Base Pay</span>
+                <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
+                  <div className="flex justify-between mb-2 text-gray-900 dark:text-gray-100">
+                    <span className="text-gray-600 dark:text-gray-400">Tax Base Pay</span>
                     <span>Rp{subtotal.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between mb-2">
-                    <span className="text-gray-600">Restaurant Tax (10%)</span>
+                  <div className="flex justify-between mb-2 text-gray-900 dark:text-gray-100">
+                    <span className="text-gray-600 dark:text-gray-400">Restaurant Tax (10%)</span>
                     <span>Rp{tax.toFixed(2)}</span>
                   </div>
-                  <div className="flex justify-between mb-2">
-                    <span className="text-gray-600">Rounding</span>
+                  <div className="flex justify-between mb-2 text-gray-900 dark:text-gray-100">
+                    <span className="text-gray-600 dark:text-gray-400">Rounding</span>
                     <span>Rp0</span>
                   </div>
                 </div>
                 
-                <div className="border-t border-gray-200 pt-4 mt-4">
-                  <div className="flex justify-between items-center">
+                <div className="border-t border-gray-200 dark:border-gray-600 pt-4 mt-4">
+                  <div className="flex justify-between items-center text-gray-900 dark:text-gray-100">
                     <span className="font-bold">Total</span>
                     <span className="font-bold text-xl">Rp{total.toFixed(2)}</span>
                   </div>

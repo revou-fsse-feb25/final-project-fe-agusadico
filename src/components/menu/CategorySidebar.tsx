@@ -28,7 +28,7 @@ export default function CategorySidebar({
 }: CategorySidebarProps) {
   return (
     <div className="lg:w-1/4">
-      <div className="bg-white p-6 rounded-lg shadow-sm mb-6">
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm mb-6">
         <SearchBar 
           searchQuery={searchQuery}
           handleSearchChange={handleSearchChange}
@@ -37,26 +37,26 @@ export default function CategorySidebar({
         />
 
         <div>
-          <h3 className="text-lg font-bold mb-4">Shop by Categories</h3>
+          <h3 className="text-lg font-bold mb-4 text-gray-900 dark:text-gray-100">Shop by Categories</h3>
           <ul className="space-y-2">
             <li className="flex justify-between items-center">
               <button 
-                className={`text-left hover:text-red-600 ${categoryParam === '' ? 'text-red-600 font-medium' : 'text-gray-700'}`}
+                className={`text-left hover:text-red-600 ${categoryParam === '' ? 'text-red-600 font-medium' : 'text-gray-700 dark:text-gray-300'}`}
                 onClick={() => handleCategoryClick('')}
               >
                 All Categories
               </button>
-              <span className="text-gray-400 text-sm">({productsCount})</span>
+              <span className="text-gray-400 dark:text-gray-500 text-sm">({productsCount})</span>
             </li>
             {categories.map((category) => (
               <li key={category.name} className="flex justify-between items-center">
                 <button 
-                  className={`text-left hover:text-red-600 ${categoryParam === category.name.toLowerCase() ? 'text-red-600 font-medium' : 'text-gray-700'}`}
+                  className={`text-left hover:text-red-600 ${categoryParam === category.name.toLowerCase() ? 'text-red-600 font-medium' : 'text-gray-700 dark:text-gray-300'}`}
                   onClick={() => handleCategoryClick(category.name)}
                 >
                   {category.name}
                 </button>
-                <span className="text-gray-400 text-sm">({category.count})</span>
+                <span className="text-gray-400 dark:text-gray-500 text-sm">({category.count})</span>
               </li>
             ))}
           </ul>

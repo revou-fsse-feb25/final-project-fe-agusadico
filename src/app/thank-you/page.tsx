@@ -136,7 +136,7 @@ export default function ThankYouPage() {
   } = orderData;
   
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50 mt-25">
+    <div className="min-h-screen flex flex-col content-body mt-25">
       {/* Navigation */}
       <Navbar />
       
@@ -144,92 +144,92 @@ export default function ThankYouPage() {
       <div className="flex-1 py-8 px-4">
         <div className="max-w-3xl mx-auto">
           {/* Success Message */}
-          <div className="bg-green-100 text-green-800 p-6 rounded-lg shadow-sm mb-6 text-center">
-            <div className="w-20 h-20 bg-green-200 rounded-full flex items-center justify-center mx-auto mb-4">
-              <svg className="w-10 h-10 text-green-600" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+          <div className="bg-green-100 dark:bg-green-900/20 text-green-800 dark:text-green-200 p-6 rounded-lg shadow-sm mb-6 text-center">
+            <div className="w-20 h-20 bg-green-200 dark:bg-green-800 rounded-full flex items-center justify-center mx-auto mb-4">
+              <svg className="w-10 h-10 text-green-600 dark:text-green-400" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
               </svg>
             </div>
-            <h1 className="text-2xl font-bold mb-2">Thank You for Your Order!</h1>
-            <p className="text-lg">Your order has been successfully placed.</p>
+            <h1 className="text-2xl font-bold mb-2 dark:text-white">Thank You for Your Order!</h1>
+            <p className="text-lg dark:text-gray-300">Your order has been successfully placed.</p>
           </div>
           
           {/* Order Summary */}
-          <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
-            <h2 className="text-xl font-bold mb-4">Order Summary</h2>
+          <div className="bg-white dark:bg-gray-800 rounded-lg shadow-sm p-6 mb-6">
+            <h2 className="text-xl font-bold mb-4 dark:text-white">Order Summary</h2>
             
             {/* Booking Time Display */}
-            <div className="bg-gray-50 p-4 rounded-md mb-4 text-center">
-              <h3 className="font-bold mb-2">Your Time Booking</h3>
+            <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-md mb-4 text-center">
+              <h3 className="font-bold mb-2 dark:text-white">Your Time Booking</h3>
               <div className="mb-1">
                 {bookingInfo.mode === 'NOW' ? (
-                  <span className="font-medium">Book Now — ASAP</span>
+                  <span className="font-medium dark:text-white">Book Now — ASAP</span>
                 ) : (
-                  <span className="font-medium">Scheduled</span>
+                  <span className="font-medium dark:text-white">Scheduled</span>
                 )}
               </div>
-              <div className="text-sm text-gray-600">
+              <div className="text-sm text-gray-600 dark:text-gray-300">
                 {bookingInfo.iso && formatScheduledDate(bookingInfo.iso)}
               </div>
             </div>
             
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               {/* Order ID and Pickup Number */}
-              <div className="bg-gray-50 p-4 rounded-md">
+              <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-md">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-600">Order ID:</span>
-                  <span className="font-medium">{orderID}</span>
+                  <span className="text-gray-600 dark:text-gray-400">Order ID:</span>
+                  <span className="font-medium dark:text-white">{orderID}</span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Pickup Number:</span>
+                  <span className="text-gray-600 dark:text-gray-400">Pickup Number:</span>
                   <span className="font-bold text-red-600">{pickupNumber}</span>
                 </div>
               </div>
               
               {/* Payment Method */}
-              <div className="bg-gray-50 p-4 rounded-md">
+              <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-md">
                 <div className="flex justify-between items-center mb-2">
-                  <span className="text-gray-600">Payment Method:</span>
-                  <span className="font-medium">
+                  <span className="text-gray-600 dark:text-gray-400">Payment Method:</span>
+                  <span className="font-medium dark:text-white">
                     {paymentMethod === 'qris' && 'QRIS'}
                     {paymentMethod === 'bank_transfer' && 'Bank Transfer'}
                     {paymentMethod === 'cash' && 'Cash'}
                   </span>
                 </div>
                 <div className="flex justify-between items-center">
-                  <span className="text-gray-600">Status:</span>
-                  <span className="bg-green-100 text-green-600 text-xs px-2 py-1 rounded font-medium">Completed</span>
+                  <span className="text-gray-600 dark:text-gray-400">Status:</span>
+                  <span className="bg-green-100 dark:bg-green-900/20 text-green-600 dark:text-green-400 text-xs px-2 py-1 rounded font-medium">Completed</span>
                 </div>
               </div>
             </div>
             
             {/* Order Status */}
-            <div className="bg-gray-50 p-4 rounded-md mt-4">
-              <h3 className="font-bold mb-3">Order Status</h3>
+            <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-md mt-4">
+              <h3 className="font-bold mb-3 dark:text-white">Order Status</h3>
               <div className="flex items-center">
-                <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center text-red-600 mr-3">
+                <div className="w-8 h-8 bg-red-100 dark:bg-red-900/20 rounded-full flex items-center justify-center text-red-600 mr-3">
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                   </svg>
                 </div>
                 <div>
-                  <span className="text-sm font-medium">{orderType || 'Dine-In'}</span>
-                  <p className="text-xs text-gray-500">{orderLocation || 'TEBET'}</p>
+                  <span className="text-sm font-medium dark:text-white">{orderType || 'Dine-In'}</span>
+                  <p className="text-xs text-gray-500 dark:text-gray-400">{orderLocation || 'TEBET'}</p>
                 </div>
-                <div className="ml-auto bg-orange-100 text-orange-600 text-xs px-2 py-1 rounded">
+                <div className="ml-auto bg-orange-100 dark:bg-orange-900/20 text-orange-600 dark:text-orange-400 text-xs px-2 py-1 rounded">
                   Order Placed
                 </div>
               </div>
             </div>
             
             {/* Order Items */}
-            <h3 className="font-bold mb-3 mt-6">Order Items</h3>
-            <div className="border-t border-gray-200 pt-3">
+            <h3 className="font-bold mb-3 mt-6 dark:text-white">Order Items</h3>
+            <div className="border-t border-gray-200 dark:border-gray-700 pt-3">
               {orderItems && orderItems.length > 0 ? (
                 orderItems.map((item) => (
-                  <div key={item.product.id} className="flex items-center justify-between py-3 border-b border-gray-200">
+                  <div key={item.product.id} className="flex items-center justify-between py-3 border-b border-gray-200 dark:border-gray-700">
                     <div className="flex items-center">
-                      <div className="w-12 h-12 bg-gray-100 rounded-md overflow-hidden mr-3 relative">
+                      <div className="w-12 h-12 bg-gray-100 dark:bg-gray-600 rounded-md overflow-hidden mr-3 relative">
                         <img 
                           src={item.product.image} 
                           alt={item.product.name} 
@@ -237,18 +237,18 @@ export default function ThankYouPage() {
                         />
                       </div>
                       <div>
-                        <h4 className="font-medium">{item.product.name}</h4>
-                        <p className="text-sm text-gray-500">{item.product.description || 'Standard'}</p>
+                        <h4 className="font-medium dark:text-white">{item.product.name}</h4>
+                        <p className="text-sm text-gray-500 dark:text-gray-400">{item.product.description || 'Standard'}</p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <span className="text-sm font-medium">{item.quantity}x</span>
-                      <p className="text-sm text-gray-600">${(item.product.price * item.quantity).toFixed(2)}</p>
+                      <span className="text-sm font-medium dark:text-white">{item.quantity}x</span>
+                      <p className="text-sm text-gray-600 dark:text-gray-300">${(item.product.price * item.quantity).toFixed(2)}</p>
                     </div>
                   </div>
                 ))
               ) : (
-                <div className="py-6 text-center text-gray-500">
+                <div className="py-6 text-center text-gray-500 dark:text-gray-400">
                   <p>No items in this order.</p>
                 </div>
               )}

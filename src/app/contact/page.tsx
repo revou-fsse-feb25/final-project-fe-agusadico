@@ -7,7 +7,7 @@ import ContactFormWrapper from './components/ContactFormWrapper'
 
 export default function ContactPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50 mt-25">
+    <div className="min-h-screen flex flex-col content-body mt-25">
       {/* Navigation */}
       <Navbar />
       

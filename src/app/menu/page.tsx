@@ -110,7 +110,7 @@ export default function MenuPage() {
   );
 
   return (
-    <div className="min-h-screen flex flex-col mt-10 bg-gray-50">
+    <div className="min-h-screen flex flex-col mt-10 content-body">
       {/* Navigation */}
       <Navbar />
       

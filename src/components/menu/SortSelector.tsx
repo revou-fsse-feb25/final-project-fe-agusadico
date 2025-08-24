@@ -10,7 +10,7 @@ export default function SortSelector({ sortParam, handleSortChange }: SortSelect
   
   return (
     <select 
-      className="border border-gray-300 rounded py-1 px-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+      className="border border-gray-300 dark:border-gray-600 rounded py-1 px-2 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
       value={sortBy}
       onChange={handleSortChange}
     >

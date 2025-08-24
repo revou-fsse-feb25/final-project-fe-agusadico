@@ -145,14 +145,14 @@ export default function ProductDetail() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50 mt-25">
+    <div className="min-h-screen flex flex-col content-body mt-25">
       {/* Navigation */}
       <Navbar />
 
       {/* Breadcrumb */}
-      <div className="border-b border-gray-200 py-4">
+      <div className="border-b border-gray-200 dark:border-gray-700 py-4">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="flex items-center text-sm text-gray-600">
+          <div className="flex items-center text-sm text-gray-600 dark:text-gray-400">
             <Link href="/" className="hover:text-red-600">
               Home
             </Link>
@@ -161,7 +161,7 @@ export default function ProductDetail() {
               Menu
             </Link>
             <span className="mx-2">›</span>
-            <span className="text-gray-800">{product.name}</span>
+            <span className="text-gray-800 dark:text-gray-200">{product.name}</span>
           </div>
         </div>
       </div>
@@ -169,12 +169,12 @@ export default function ProductDetail() {
       {/* Product Detail */}
       <div className="flex-1 py-8">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="bg-white p-6 rounded-lg shadow-sm mb-6">
+          <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm mb-6">
             <div className="flex flex-col md:flex-row gap-8">
               {/* Product Images */}
               <div className="md:w-2/5">
                 <div className="sticky top-4">
-                  <div className="bg-gray-50 rounded-lg p-4 mb-4 flex items-center justify-center">
+                  <div className="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-4 flex items-center justify-center">
                     <img
                       src={selectedImage || "/images/menu/Legendary-Chicken-Ramen.jpg"}
                       alt={product.name}
@@ -191,7 +191,7 @@ export default function ProductDetail() {
                         className={`border rounded-md p-1 cursor-pointer transition-all ${
                           selectedImage === image 
                             ? 'border-red-500' 
-                            : 'border-gray-200 hover:border-red-500'
+                            : 'border-gray-200 dark:border-gray-600 hover:border-red-500'
                         }`}
                         onClick={() => setSelectedImage(image)}
                       >
@@ -210,10 +210,10 @@ export default function ProductDetail() {
 
               {/* Product Info */}
               <div className="md:w-3/5">
-                <div className="text-sm text-gray-500 mb-2">
+                <div className="text-sm text-gray-500 dark:text-gray-400 mb-2">
                   {product.category}
                 </div>
-                <h1 className="text-2xl font-bold mb-2">{product.name}</h1>
+                <h1 className="text-2xl font-bold mb-2 dark:text-white">{product.name}</h1>
 
                 {/* Ratings */}
                 <div className="flex items-center mb-4">
@@ -224,7 +224,7 @@ export default function ProductDetail() {
                         className={`w-4 h-4 ${
                           i < Math.floor(product.rating)
                             ? "text-yellow-400"
-                            : "text-gray-300"
+                            : "text-gray-300 dark:text-gray-600"
                         }`}
                         fill="currentColor"
                         viewBox="0 0 20 20"
@@ -233,7 +233,7 @@ export default function ProductDetail() {
                       </svg>
                     ))}
                   </div>
-                  <span className="text-sm text-gray-500 ml-2">
+                  <span className="text-sm text-gray-500 dark:text-gray-400 ml-2">
                     {product.reviewCount} Customer Reviews
                   </span>
                 </div>
@@ -249,14 +249,14 @@ export default function ProductDetail() {
                     </span>
                   )}
                   {product.discount && (
-                    <span className="bg-red-100 text-red-600 text-xs font-bold px-2 py-1 rounded ml-2">
+                    <span className="bg-red-100 dark:bg-red-900/20 text-red-600 text-xs font-bold px-2 py-1 rounded ml-2">
                       -{product.discount}
                     </span>
                   )}
                 </div>
 
                 {/* Description */}
-                <div className="text-gray-600 mb-6">{product.description}</div>
+                <div className="text-gray-600 dark:text-gray-300 mb-6">{product.description}</div>
 
                 {/* Features */}
                 <div className="mb-6">
@@ -276,7 +276,7 @@ export default function ProductDetail() {
                             d="M5 13l4 4L19 7"
                           />
                         </svg>
-                        <span>{feature}</span>
+                        <span className="dark:text-white">{feature}</span>
                       </li>
                     ))}
                   </ul>
@@ -284,10 +284,10 @@ export default function ProductDetail() {
 
                 {/* SKU & Stock */}
                 <div className="flex flex-col sm:flex-row sm:items-center gap-4 mb-6">
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-gray-500 dark:text-gray-400">
                     <span className="font-medium">SKU:</span> {product.sku}
                   </div>
-                  <div className="text-sm">
+                  <div className="text-sm dark:text-white">
                     <span className="font-medium">Availability:</span>
                     <span
                       className={product.inStock ? "text-green-600" : "text-red-600"}
@@ -299,10 +299,10 @@ export default function ProductDetail() {
 
                 {/* Quantity & Add to Cart */}
                 <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4 mb-6">
-                  <div className="flex items-center border border-gray-300 rounded-md">
+                  <div className="flex items-center border border-gray-300 dark:border-gray-600 rounded-md">
                     <button
                       onClick={decrementQuantity}
-                      className="px-3 py-2 text-gray-600 hover:bg-gray-100"
+                      className="px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
                     >
                       -
                     </button>
@@ -310,11 +310,11 @@ export default function ProductDetail() {
                       type="text"
                       value={quantity}
                       readOnly
-                      className="w-12 text-center border-x border-gray-300 py-2"
+                      className="w-12 text-center border-x border-gray-300 dark:border-gray-600 py-2 bg-white dark:bg-gray-800 text-gray-900 dark:text-white"
                     />
                     <button
                       onClick={incrementQuantity}
-                      className="px-3 py-2 text-gray-600 hover:bg-gray-100"
+                      className="px-3 py-2 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700"
                     >
                       +
                     </button>
@@ -331,7 +331,7 @@ export default function ProductDetail() {
 
                 {/* Secure Checkout */}
                 <div className="mb-6">
-                  <div className="text-sm font-medium mb-2">
+                  <div className="text-sm font-medium mb-2 dark:text-white">
                     Guaranteed Safe Checkout
                   </div>
                   <div className="flex gap-2">
@@ -358,7 +358,7 @@ export default function ProductDetail() {
 
                 {/* Share */}
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-medium">Share:</span>
+                  <span className="text-sm font-medium dark:text-white">Share:</span>
                   <div className="flex gap-2">
                     <a href="#" className="text-gray-400 hover:text-blue-600">
                       <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">

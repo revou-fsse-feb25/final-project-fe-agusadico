@@ -4,7 +4,7 @@ import "./globals.css";
 import { CartProvider } from "../context/CartContext";
 import { SessionProvider } from 'next-auth/react';
 import AuthProvider from '@/components/AuthProvider';
-import './globals.css';
+import { ThemeProvider } from '../context/ThemeContext';
 
 export default function RootLayout({
   children,
@@ -13,8 +13,16 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body>
-        <AuthProvider>{children}</AuthProvider>
+      <body className="bg-white dark:bg-gray-900 transition-colors duration-300">
+        <ThemeProvider>
+          <CartProvider>
+            <AuthProvider>
+              <div className="dark-mode-content">
+                {children}
+              </div>
+            </AuthProvider>
+          </CartProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -7,7 +7,7 @@ import Link from 'next/link'
 
 export default function FAQPage() {
   return (
-    <div className="min-h-screen flex flex-col bg-gray-50">
+    <div className="min-h-screen flex flex-col content-body">
       {/* Navigation */}
       <Navbar />
       

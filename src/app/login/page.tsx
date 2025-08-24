@@ -122,11 +122,11 @@ export default function LoginPage() {
         </div>
         
         {/* Right Column - White Background with Form */}
-        <div className="w-full lg:w-1/2 bg-white">
+        <div className="w-full lg:w-1/2 content-body">
           <div className="min-h-screen p-6 md:p-8 lg:p-12 flex items-center justify-center">
             <div className="max-w-md mx-auto">
-              <h2 className="text-2xl font-bold text-center mb-4">LOGIN</h2>
-              <p className="text-gray-600 mb-8 text-center">
+              <h2 className="text-2xl font-bold text-center mb-4 dark:text-white">LOGIN</h2>
+              <p className="text-gray-600 dark:text-gray-300 mb-8 text-center">
                 Access your account to track your meals
               </p>
               
@@ -139,14 +139,14 @@ export default function LoginPage() {
               <form className="mt-8 space-y-6" onSubmit={handleLogin}>
                 <div className="rounded-md shadow-sm -space-y-px">
                   <div className="mb-4">
-                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email <span className="text-red-500">*</span></label>
+                    <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Email <span className="text-red-500">*</span></label>
                     <input
                       id="email"
                       name="email"
                       type="email"
                       autoComplete="email"
                       required
-                      className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
+                      className="appearance-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-800 rounded focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
                       placeholder="Enter your email"
                       value={email}
                       onChange={(e) => setEmail(e.target.value)}
@@ -154,14 +154,14 @@ export default function LoginPage() {
                   </div>
                   
                   <div className="mb-4">
-                    <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">Password <span className="text-red-500">*</span></label>
+                    <label htmlFor="password" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Password <span className="text-red-500">*</span></label>
                     <input
                       id="password"
                       name="password"
                       type="password"
                       autoComplete="current-password"
                       required
-                      className="appearance-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
+                      className="appearance-none relative block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 placeholder-gray-500 dark:placeholder-gray-400 text-gray-900 dark:text-white bg-white dark:bg-gray-800 rounded focus:outline-none focus:ring-red-500 focus:border-red-500 focus:z-10 sm:text-sm"
                       placeholder="Enter your password"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}

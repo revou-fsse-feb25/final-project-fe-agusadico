@@ -34,14 +34,14 @@ export default function RelatedProducts({ products, fallbackProducts }: RelatedP
   const displayProducts = products || fallbackProducts || sampleProducts;
   
   return (
-    <div className="bg-white p-6 rounded-lg shadow-sm mb-6">
-      <h2 className="text-xl font-bold mb-6">Related Products</h2>
+    <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm mb-6">
+      <h2 className="text-xl font-bold mb-6 dark:text-white">Related Products</h2>
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
         {displayProducts.map((product) => (
-          <div key={product.id} className="bg-white border border-gray-100 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
+          <div key={product.id} className="bg-white dark:bg-gray-700 border border-gray-100 dark:border-gray-600 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow">
             <div className="p-4 relative">
               <div className="relative group">
-                <div className="relative h-48 mb-4 flex items-center justify-center bg-gray-50 rounded">
+                <div className="relative h-48 mb-4 flex items-center justify-center bg-gray-50 dark:bg-gray-600 rounded">
                   <img
                     src={product.image || "/images/menu/Legendary-Chicken-Ramen.jpg"}
                     alt={product.name}
@@ -52,7 +52,7 @@ export default function RelatedProducts({ products, fallbackProducts }: RelatedP
                 </div>
               </div>
               <div className="text-xs text-gray-400 mb-1">{product.category}</div>
-              <h3 className="text-sm font-medium mb-1 line-clamp-2 h-10">{product.name}</h3>
+              <h3 className="text-sm font-medium mb-1 line-clamp-2 h-10 dark:text-white">{product.name}</h3>
               {/* <div className="text-xs text-gray-500 mb-2">{product.pack}</div> */}
               <div className="flex items-center mb-3">
                 <span className="text-red-500 font-bold">${product.price.toFixed(2)}</span>

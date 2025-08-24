@@ -43,22 +43,22 @@ export default function AccountPage() {
       case 'dashboard':
         return (
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-6">Dashboard</h1>
-            <p className="text-gray-600 mb-4">
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Dashboard</h1>
+            <p className="text-gray-600 dark:text-gray-300 mb-4">
               From your account dashboard you can view your recent orders, manage your shipping and billing addresses, and edit your password and account details.
             </p>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mt-6">
-              <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                <h3 className="font-medium text-lg mb-2">Orders</h3>
-                <p className="text-gray-500 text-sm">View and track your orders</p>
+              <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
+                <h3 className="font-medium text-lg mb-2 dark:text-white">Orders</h3>
+                <p className="text-gray-500 dark:text-gray-400 text-sm">View and track your orders</p>
               </div>
-              <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                <h3 className="font-medium text-lg mb-2">Addresses</h3>
-                <p className="text-gray-500 text-sm">Manage your delivery addresses</p>
+              <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
+                <h3 className="font-medium text-lg mb-2 dark:text-white">Addresses</h3>
+                <p className="text-gray-500 dark:text-gray-400 text-sm">Manage your delivery addresses</p>
               </div>
-              <div className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow">
-                <h3 className="font-medium text-lg mb-2">Account Details</h3>
-                <p className="text-gray-500 text-sm">Update your profile and preferences</p>
+              <div className="bg-white dark:bg-gray-800 p-4 rounded-lg border border-gray-200 dark:border-gray-700 shadow-sm hover:shadow-md transition-shadow">
+                <h3 className="font-medium text-lg mb-2 dark:text-white">Account Details</h3>
+                <p className="text-gray-500 dark:text-gray-400 text-sm">Update your profile and preferences</p>
               </div>
             </div>
           </div>
@@ -66,39 +66,39 @@ export default function AccountPage() {
       case 'orders':
         return (
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-6">My Orders</h1>
-            <p className="text-gray-600">View and track your order history.</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">My Orders</h1>
+            <p className="text-gray-600 dark:text-gray-300">View and track your order history.</p>
             {/* Order history would go here */}
-            <div className="mt-4 p-6 bg-gray-50 rounded-lg text-center">
-              <p>You haven't placed any orders yet.</p>
+            <div className="mt-4 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg text-center">
+              <p className="dark:text-gray-300">You haven't placed any orders yet.</p>
             </div>
           </div>
         )
       case 'address':
         return (
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-6">My Addresses</h1>
-            <p className="text-gray-600">Manage your shipping and billing addresses.</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">My Addresses</h1>
+            <p className="text-gray-600 dark:text-gray-300">Manage your shipping and billing addresses.</p>
             {/* Address management would go here */}
-            <div className="mt-4 p-6 bg-gray-50 rounded-lg text-center">
-              <p>No addresses saved yet.</p>
+            <div className="mt-4 p-6 bg-gray-50 dark:bg-gray-800 rounded-lg text-center">
+              <p className="dark:text-gray-300">No addresses saved yet.</p>
             </div>
           </div>
         )
       case 'account':
         return (
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-6">Account Details</h1>
-            <p className="text-gray-600">Update your account information.</p>
+            <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-6">Account Details</h1>
+            <p className="text-gray-600 dark:text-gray-300">Update your account information.</p>
             {/* Account details form would go here */}
-            <div className="mt-4 bg-white rounded-lg border border-gray-200 p-4">
+            <div className="mt-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-4">
               <div className="mb-4">
-                <p className="text-sm text-gray-500">Name</p>
-                <p className="font-medium">{session?.user?.name}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Name</p>
+                <p className="font-medium dark:text-white">{session?.user?.name}</p>
               </div>
               <div className="mb-4">
-                <p className="text-sm text-gray-500">Email</p>
-                <p className="font-medium">{session?.user?.email}</p>
+                <p className="text-sm text-gray-500 dark:text-gray-400">Email</p>
+                <p className="font-medium dark:text-white">{session?.user?.email}</p>
               </div>
             </div>
           </div>
@@ -112,7 +112,7 @@ export default function AccountPage() {
   return (
     <>
       <Navbar />
-      <div className="min-h-screen bg-gray-50 py-10 mt-25">
+      <div className="min-h-screen content-body py-10 mt-25">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col md:flex-row space-y-6 md:space-y-0 md:space-x-6">
             {/* Sidebar */}

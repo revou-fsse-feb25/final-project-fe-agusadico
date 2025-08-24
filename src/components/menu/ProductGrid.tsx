@@ -21,10 +21,10 @@ export default function ProductGrid({
 }: ProductGridProps) {
   return (
     <div className="lg:w-3/4">
-      <div className="bg-white p-4 rounded-lg shadow-sm mb-6">
+      <div className="bg-white dark:bg-gray-800 p-4 rounded-lg shadow-sm mb-6">
         <div className="flex flex-col sm:flex-row justify-between items-center mb-6">
           <div className="mb-4 sm:mb-0">
-            <span className="text-sm text-gray-500">
+            <span className="text-sm text-gray-500 dark:text-gray-400">
               {products.length === 0 ? (
                 <span>No products found matching your search</span>
               ) : searchQuery ? (
@@ -38,23 +38,23 @@ export default function ProductGrid({
           </div>
           <div className="flex items-center space-x-2">
             <div className="flex space-x-1">
-              <button className="border border-gray-300 p-1 rounded hover:bg-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <button className="border border-gray-300 dark:border-gray-600 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h7" />
                 </svg>
               </button>
-              <button className="border border-gray-300 p-1 rounded hover:bg-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <button className="border border-gray-300 dark:border-gray-600 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               </button>
-              <button className="border border-gray-300 p-1 rounded hover:bg-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <button className="border border-gray-300 dark:border-gray-600 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 10h16M4 14h16M4 18h16" />
                 </svg>
               </button>
-              <button className="border border-gray-300 p-1 rounded hover:bg-gray-100">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <button className="border border-gray-300 dark:border-gray-600 p-1 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
+                <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5 text-gray-500 dark:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 5a1 1 0 011-1h14a1 1 0 011 1v2a1 1 0 01-1 1H5a1 1 0 01-1 1V5zM4 13a1 1 0 011-1h6a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6zM16 13a1 1 0 011-1h2a1 1 0 011 1v6a1 1 0 01-1 1h-2a1 1 0 01-1-1v-6z" />
                 </svg>
               </button>

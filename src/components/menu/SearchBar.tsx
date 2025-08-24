@@ -18,7 +18,7 @@ export default function SearchBar({
           <input 
             type="text" 
             placeholder="Search products..." 
-            className="w-full border border-gray-300 rounded-md py-2 px-4 pr-10 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent"
+            className="w-full border border-gray-300 dark:border-gray-600 rounded-md py-2 px-4 pr-10 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
             value={searchQuery}
             onChange={handleSearchChange}
           />
@@ -33,7 +33,7 @@ export default function SearchBar({
         </div>
       </form>
       {debouncedSearchQuery && (
-        <div className="mt-2 text-sm text-gray-500">
+        <div className="mt-2 text-sm text-gray-500 dark:text-gray-400">
           Showing results for: <span className="font-medium">{debouncedSearchQuery}</span>
         </div>
       )}

@@ -28,20 +28,16 @@ export default function Home() {
                 height={600}
                 className="rounded-full mx-auto"
               />
-              {/* <div className="discount-badge">
-                <span className="text-2xl">25%</span>
-                <span className="text-sm">OFF</span>
-              </div> */}
             </div>
           </div>
           
           {/* Hero Text */}
           <div className="w-full md:w-1/2 text-center md:text-right">
-            <h2 className="text-5xl font-bold mb-4">"Keadilan Rasa untuk Seluruh Rakyat"</h2>
-            <p className="mb-8 text-lg">
+            <h2 className="text-5xl font-bold mb-4 text-white">"Keadilan Rasa untuk Seluruh Rakyat"</h2>
+            <p className="mb-8 text-lg text-white">
               <b>Taste Justice, Enjoyment for All!</b> Every bowl from Ramen President is crafted with championship flavor, serving up taste equality in every bite. Savor authentic ramen and Japanese specialties made for everyone.
             </p>
-            <Link href="/menu" className="bg-yellow-400 text-red-800 font-bold py-3 px-8 rounded-full hover:bg-gray-100 transition-colors">
+            <Link href="/menu" className="bg-yellow-400 text-red-800 font-bold py-3 px-8 rounded-full hover:bg-yellow-300 transition-colors">
               Book Now
             </Link>
           </div>
