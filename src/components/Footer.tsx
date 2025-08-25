@@ -45,7 +45,7 @@ export default function Footer() {
             <input type="email" placeholder="Type Your E-mail" className="rounded-l px-3 py-2 bg-amber-100 dark:bg-gray-700 text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-red-500 dark:focus:ring-red-400 transition-colors" />
             <button type="submit" className="restaurant-bg px-4 rounded-r text-white font-bold hover:bg-red-700 transition-colors">→</button>
           </form>
-          <div className="text-xs mb-2 dark:text-gray-300">Download App on Mobile :<br /><span className="font-bold">15% discount on your first purchase</span></div>
+          <div className="text-xs mb-2 dark:text-gray-300">Download App on Mobile :<br /><span className="text-xs mb-2 font-bold dark:text-gray-300">15% discount on your first purchase</span></div>
           <div className="flex gap-2">
             <a href="#" className="text-gray-800 dark:text-gray-300 hover:text-gray-600 dark:hover:text-white transition-colors"><span className="fa-brands fa-google-play"></span></a>
             <a href="#" className="text-gray-800 dark:text-gray-300 hover:text-gray-600 dark:hover:text-white transition-colors"><span className="fa-brands fa-app-store"></span></a>

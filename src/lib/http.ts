@@ -73,7 +73,12 @@ export async function http<T = unknown>(path: string, options: HttpOptions = {})
   const existingAuth = Object.keys(finalHeaders).find((k) => k.toLowerCase() === 'authorization');
   if (!existingAuth) {
     const token = getClientAuthToken();
-    if (token) finalHeaders['Authorization'] = `Bearer ${token}`;
+    if (token) {
+      finalHeaders['Authorization'] = `Bearer ${token}`;
+    } else {
+      // For development, log that no auth token is available
+      console.warn('No auth token found. API calls may fail if authentication is required.');
+    }
   }
 
   const response = await fetch(url, {

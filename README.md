@@ -18,6 +18,9 @@ This is a modern restaurant management system built with Next.js 15.3.4 and Reac
 ![Home Page](public/images/documentation/16.jpg)
 *Home page with featured menu items and navigation*
 
+![Home Page](public/images/documentation/17-dark-mode.png)
+*Home page with featured menu items and navigation in dark mode*
+
 ![Menu Page](public/images/documentation/17.jpg)
 *Menu page with filter options and product list*
 
@@ -131,5 +134,25 @@ When updating the application, ensure both frontend and backend changes are sync
 3. **Environment Variables**: Update environment configurations when API changes occur
 4. **Testing**: Test integration points thoroughly after updates to either system
 5. **Deployment**: Deploy backend changes before or simultaneously with frontend updates
+
+## Dark Mode
+The application supports dark mode with a custom theme. Users can toggle between light and dark modes using the theme switcher in the navigation bar.
+
+## Receipt Generation
+Users can generate PDF receipts for their orders. The receipt includes order details, total amount, and payment method.
+
+## Contact Us Form
+The contact us form allows customers to send messages directly to the restaurant. Form submissions are handled securely and stored in the database.
+
+## Admin Features
+- **Product Management**: Add, edit, and delete menu items
+- **Order Management**: View and manage customer orders
+- **Customer Management**: View and manage customer information
+- **Reporting**: Generate reports on orders and customer activity
+- **Manual Booking**: Manage table bookings manually through the admin dashboard
+- **User Management**: Manage user accounts and permissions
+
+
+
 
 

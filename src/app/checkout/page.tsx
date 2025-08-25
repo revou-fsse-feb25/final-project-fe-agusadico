@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import Link from 'next/link';
+import { useSession } from 'next-auth/react';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import OrderTypeSelector from '../../components/OrderTypeSelector';
@@ -29,6 +30,7 @@ type GuestFormInputs = {
 
 export default function CheckoutPage() {
   const { cartItems, getCartTotal, updateQuantity } = useCart();
+  const { data: session, status } = useSession();
   const [paymentMethod, setPaymentMethod] = useState<string>('');
   const [orderType, setOrderType] = useState<string>('Dine-In');
   const [orderLocation, setOrderLocation] = useState<string>('TEBET');
@@ -37,6 +39,17 @@ export default function CheckoutPage() {
   const [guestName, setGuestName] = useState<string>('');
   const [bookingInfo, setBookingInfo] = useState<{ mode: 'NOW' | 'SCHEDULED'; iso?: string }>({ mode: 'NOW' }); // Add this state
   const router = useRouter();
+  
+  // Update order option when user authentication status changes
+  useEffect(() => {
+    if (status === 'authenticated' && session?.user) {
+      // User is logged in, no need to show order options
+      setOrderOption('authenticated');
+    } else if (status === 'unauthenticated') {
+      // User is not logged in, show guest option by default
+      setOrderOption('guest');
+    }
+  }, [status, session]);
   
   const {
     register,
@@ -91,6 +104,12 @@ export default function CheckoutPage() {
         name: data.name,
         phone: data.phone,
         email: data.email,
+        isMember: true
+      }));
+    } else if (orderOption === 'authenticated' && session?.user) {
+      localStorage.setItem('customerData', JSON.stringify({
+        name: session.user.name,
+        email: session.user.email,
         isMember: true
       }));
     }

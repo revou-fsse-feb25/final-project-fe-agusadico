@@ -219,7 +219,7 @@ const MenuCard = () => {
                           };
                           addToCart(productToAdd, 1);
                         }}
-                        className="bg-yellow-400 hover:bg-yellow-500 text-red-700 font-bold py-2 px-4 rounded-full transition-colors"
+                        className="bg-yellow-400 hover:bg-yellow-500 text-red-700 dark:bg-red-900 dark:hover:bg-red-950 dark:text-black font-bold py-2 px-4 rounded-full transition-colors"
                       >
                         Add to Cart
                       </button>

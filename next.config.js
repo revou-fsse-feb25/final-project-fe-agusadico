@@ -9,6 +9,11 @@ const nextConfig = {
       },
       {
         protocol: 'https',
+        hostname: '9bjibncl2.ufs.sh',
+        pathname: '**',
+      },
+      {
+        protocol: 'https',
         hostname: 'images.unsplash.com',
         pathname: '**',
       },

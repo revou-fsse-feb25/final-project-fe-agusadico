@@ -6,110 +6,34 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ProductType } from '../../../../types/product'
 import ActionMenu from '../../components/ActionMenu'
+import { list } from '../../../../lib/api/products'
 
-// Mock data for products
-const MOCK_PRODUCTS: ProductType[] = [
-  {
-    id: 1,
-    name: 'Chicken Curry Katsudon',
-    category: 'Main Dish',
-    price: 14.99,
-    image: '/images/menu/Chicken-Curry-Katsudon.jpg',
-    //pack: 'Single',
-    inStock: true
-  },
-  {
-    id: 2,
-    name: 'Chicken Katsudon',
-    category: 'Main Dish',
-    price: 12.99,
-    image: '/images/menu/Chicken-Katsudon.jpg',
-    //pack: 'Single',
-    inStock: true
-  },
-  {
-    id: 3,
-    name: 'Karaage Dry Ramen',
-    category: 'Ramen',
-    price: 15.99,
-    image: '/images/menu/Karaage-Dry-Ramen.jpg',
-    //pack: 'Bowl',
-    inStock: true
-  },
-  {
-    id: 4,
-    name: 'Legendary Chicken Ramen',
-    category: 'Ramen',
-    price: 16.99,
-    image: '/images/menu/Legendary-Chicken-Ramen.jpg',
-    //pack: 'Bowl',
-    inStock: true
-  },
-  {
-    id: 5,
-    name: 'Mango Yakult',
-    category: 'Beverage',
-    price: 5.99,
-    image: '/images/menu/Mango-Yakult.jpg',
-    //pack: 'Glass',
-    inStock: true
-  },
-  {
-    id: 6,
-    name: 'Nori Gyoza Skin',
-    category: 'Appetizer',
-    price: 8.99,
-    image: '/images/menu/Nori-Gyoza-Skin.jpg',
-    //pack: 'Plate',
-    inStock: true
-  },
-  {
-    id: 7,
-    name: 'Seafood Maki Sushi Rolls',
-    category: 'Sushi',
-    price: 13.99,
-    image: '/images/menu/Seafood-Maki-Sushi-Rolls.jpg',
-    //pack: 'Plate',
-    inStock: true
-  },
-  {
-    id: 8,
-    name: 'Seafood Spicy Crunchy Roll',
-    category: 'Sushi',
-    price: 14.99,
-    image: '/images/menu/Seafood-Spicy-Cruncy-Roll.jpg',
-    //pack: 'Plate',
-    inStock: true
-  }
-];
+// Mock data removed - now using real API data
 
 const ProductList = ({ /* props */ }) => {
   const router = useRouter()
   const [products, setProducts] = useState<ProductType[]>([])
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [activeMenu, setActiveMenu] = useState<number | null>(null)
   const productsPerPage = 10
 
   useEffect(() => {
-    // Simulate API call to fetch products
+    // Fetch products from API
     const fetchProducts = async () => {
       setLoading(true)
       try {
-        // In a real app, this would be an API call
-        // const response = await fetch('/api/admin/products')
-        // const data = await response.json()
-        
-        // Using mock data instead
-        setTimeout(() => {
-          setProducts(MOCK_PRODUCTS)
-          setTotalPages(Math.ceil(MOCK_PRODUCTS.length / productsPerPage))
-          setLoading(false)
-        }, 800)
+        const data = await list()
+        setProducts(data)
+        setTotalPages(Math.ceil(data.length / productsPerPage))
+        setLoading(false)
       } catch (error) {
         console.error('Error fetching products:', error)
+        setError('Failed to load products')
         setLoading(false)
+        // Keep the table shell but show error message
       }
     }
     
@@ -181,6 +105,15 @@ const ProductList = ({ /* props */ }) => {
         </Link>
       </div>
       
+      {/* Error message */}
+      {error && (
+        <div className="px-6 pb-4">
+          <div className="text-sm text-red-600 bg-red-50 px-3 py-2 rounded-md border border-red-200">
+            {error}
+          </div>
+        </div>
+      )}
+      
       <div className="overflow-x-auto">
         <table className="w-full text-left">
           <thead>
@@ -199,13 +132,25 @@ const ProductList = ({ /* props */ }) => {
                 <td className="p-4 text-gray-700">#{product.id}</td>
                 <td className="p-4">
                   <div className="relative w-16 h-16 rounded-md overflow-hidden">
-                    <Image 
-                      src={product.image} 
-                      alt={product.name}
-                      fill
-                      sizes="64px"
-                      className="object-cover"
-                    />
+                    {product.image ? (
+                      <Image 
+                        src={product.image} 
+                        alt={product.name}
+                        fill
+                        sizes="64px"
+                        className="object-cover"
+                        unoptimized={true}
+                        onError={(e) => {
+                          // Fallback to placeholder if image fails to load
+                          const target = e.target as HTMLImageElement;
+                          target.src = "/images/ramenpresident-logo.png"; // Use local image as fallback
+                        }}
+                      />
+                    ) : (
+                      <div className="w-full h-full bg-gray-200 flex items-center justify-center text-gray-500 text-xs">
+                        <span className="text-center">No Image</span>
+                      </div>
+                    )}
                   </div>
                 </td>
                 <td className="p-4 text-gray-700">{product.name}</td>

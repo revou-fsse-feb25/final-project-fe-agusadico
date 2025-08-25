@@ -321,3 +321,36 @@ body {
 .dark .restaurant-bg h2.text-5xl {
   color: #f0b100 !important;
 }
+
+/* Special styling for MenuCard "Add to Cart" buttons in dark mode */
+.dark .content-body button.bg-yellow-400 {
+  background-color: #b30000 !important; /* Maroon color */
+}
+
+.dark .content-body button.bg-yellow-400:hover {
+  background-color: #600000 !important; /* Darker maroon on hover */
+}
+
+/* Footer dark mode styling - make text black */
+.dark footer.dark\:bg-gray-900,
+.dark footer .dark\:text-gray-200,
+.dark footer .dark\:text-gray-300,
+.dark footer .dark\:text-gray-400,
+.dark footer .dark\:text-white {
+  color: #000000 !important;
+}
+
+/* Ensure all footer text is black in dark mode */
+.dark footer * {
+  color: #000000 !important;
+}
+
+/* Keep the footer background yellow in dark mode */
+.dark footer.dark\:bg-gray-900 {
+  background-color: #f0b100 !important;
+}
+
+/* Homepage banner button text color in dark mode */
+.dark .bg-yellow-400.text-red-800 {
+  color:  #b30000 !important; /* Maroon color for text */
+}

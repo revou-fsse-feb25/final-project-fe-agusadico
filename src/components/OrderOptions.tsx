@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useForm, SubmitHandler, UseFormRegister } from 'react-hook-form';
 import { useSession, signOut, signIn } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
+import { register as registerApi } from '@/lib/api/auth';
 
 type FormInputs = {
   name: string;
@@ -41,12 +42,16 @@ export default function OrderOptions({
   const router = useRouter();
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [loginError, setLoginError] = useState('');
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [registerError, setRegisterError] = useState('');
+  const [registerSuccess, setRegisterSuccess] = useState(false);
   
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
+    getValues,
   } = useForm<FormInputs>();
 
   const password = watch("password"); // Watch the password field for validation
@@ -102,6 +107,76 @@ export default function OrderOptions({
     }
   };
 
+  const onRegisterSubmit = async () => {
+    setIsRegistering(true);
+    setRegisterError('');
+    
+    try {
+      const formData = getValues();
+      
+      // Validate required fields
+      if (!formData.name || !formData.username || !formData.password || !formData.confirmPassword || !formData.phone || !formData.email) {
+        setRegisterError('Please fill in all required fields');
+        setIsRegistering(false);
+        return;
+      }
+      
+      // Validate password confirmation
+      if (formData.password !== formData.confirmPassword) {
+        setRegisterError('Passwords do not match');
+        setIsRegistering(false);
+        return;
+      }
+      
+      // Validate password length (minimum 6 characters as per register page)
+      if (formData.password.length < 6) {
+        setRegisterError('Password must be at least 6 characters');
+        setIsRegistering(false);
+        return;
+      }
+      
+      // Normalize birthday to ISO format if provided
+      let normalizedBirthday = formData.birthday;
+      if (formData.birthday) {
+        const date = new Date(formData.birthday);
+        if (!isNaN(date.getTime())) {
+          normalizedBirthday = date.toISOString().split('T')[0]; // YYYY-MM-DD format
+        }
+      }
+      
+      // Prepare payload for registration
+      const payload = {
+        name: formData.name,
+        username: formData.username,
+        password: formData.password,
+        phone: formData.phone,
+        email: formData.email,
+        address: formData.address || '',
+        city: formData.city || '',
+        // Remove birthday field as it's causing validation errors
+      };
+      
+      // Call the registration API
+      await registerApi(payload);
+      
+      // Show success message
+      setRegisterSuccess(true);
+      
+      // Option A: Switch to "Login as Member" view automatically
+      setTimeout(() => {
+        onOrderOptionChange('login');
+        setRegisterSuccess(false);
+      }, 2000);
+      
+    } catch (error: any) {
+      console.warn('Registration error:', error);
+      const backendMessage = (error?.payload && (error.payload.message || error.payload.error)) || error?.message;
+      setRegisterError(backendMessage || 'Registration failed. Please try again.');
+    } finally {
+      setIsRegistering(false);
+    }
+  };
+
   // Handle logout and change account
   const handleChangeAccount = async () => {
     await signOut({ redirect: false });
@@ -113,6 +188,30 @@ export default function OrderOptions({
 
   // If user is logged in and has customer role, show user details instead of order options
   if (status === 'authenticated' && session?.user?.role === 'customer') {
+    return (
+      <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm mb-6">
+        <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">ORDER OPTIONS</h2>
+        <div className="border rounded-md p-4 border-green-500 dark:border-green-400 bg-green-50 dark:bg-green-900/20">
+          <div className="flex items-center justify-between">
+            <div>
+              <h3 className="font-medium text-lg text-gray-900 dark:text-gray-100">Logged in as:</h3>
+              <p className="text-gray-700 dark:text-gray-300 font-medium mt-1">{session.user.name}</p>
+              <p className="text-gray-500 dark:text-gray-400 text-sm">{session.user.email}</p>
+            </div>
+            <button 
+              onClick={handleChangeAccount}
+              className="text-red-600 hover:text-red-800 font-medium text-sm"
+            >
+              Change account
+            </button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Handle authenticated state from checkout page
+  if (orderOption === 'authenticated' && status === 'authenticated' && session?.user) {
     return (
       <div className="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm mb-6">
         <h2 className="text-xl font-bold mb-4 text-gray-900 dark:text-gray-100">ORDER OPTIONS</h2>
@@ -182,9 +281,9 @@ export default function OrderOptions({
           >
             <div className="flex items-center">
               <div className={`w-5 h-5 rounded-full border ${orderOption === 'login' ? 'border-red-500 bg-red-500' : 'border-gray-400 dark:border-gray-500'} flex items-center justify-center mr-3`}>
-                {orderOption === 'login' && (
+                {orderOption === 'login' ? (
                   <div className="w-3 h-3 rounded-full bg-white"></div>
-                )}
+                ) : null}
               </div>
               <div>
                 <h3 className="font-medium text-gray-900 dark:text-gray-100">Login as Member</h3>
@@ -228,6 +327,18 @@ export default function OrderOptions({
               <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd" />
             </svg>
           </h2>
+          
+          {registerError && (
+            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+              <span className="block sm:inline">{registerError}</span>
+            </div>
+          )}
+          
+          {registerSuccess && (
+            <div className="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+              <span className="block sm:inline">Account created successfully! Switching to login view...</span>
+            </div>
+          )}
           
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-4">
@@ -341,6 +452,21 @@ export default function OrderOptions({
               />
               {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address.message}</p>}
             </div>
+            
+            {/* Create Account & Continue Button - Moved outside the form */}
+            <button 
+              type="button"
+              onClick={onRegisterSubmit}
+              disabled={isRegistering}
+              className="w-full bg-red-600 hover:bg-red-700 text-white font-medium py-3 px-6 rounded-md transition-colors disabled:bg-red-400 flex justify-center items-center mt-4"
+            >
+              {isRegistering ? (
+                <>
+                  <span className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-white mr-2"></span>
+                  Creating Account...
+                </>
+              ) : 'Create Account & Continue'}
+            </button>
           </form>
         </div>
       )}

@@ -1,4 +1,4 @@
-import { httpGet } from '@/lib/http';
+import { httpGet, httpPatch } from '@/lib/http';
 import { ProductType } from '@/types/product';
 
 export type ProductListResponse = ProductType[];
@@ -16,9 +16,17 @@ export async function getProduct(idOrSlug: string | number) {
   return httpGet<ProductType>(`/products/${idOrSlug}`);
 }
 
+export async function updateProduct(id: string | number, data: Partial<ProductType>) {
+  return httpPatch<ProductType>(`/products/${id}`, data);
+}
+
 // Alias that matches the requested API: products.list()
 export const list = (params?: { search?: string; category?: string; sort?: string }) =>
   listProducts(params);
+
+// Update product
+export const update = (id: string | number, data: Partial<ProductType>) =>
+  updateProduct(id, data);
 
 // Get single product by ID or slug
 export const get = async (idOrSlug: string | number) => {
