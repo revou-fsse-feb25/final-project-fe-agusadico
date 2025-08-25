@@ -8,6 +8,7 @@ import Image from 'next/image'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
 import { register as registerApi } from '@/lib/api/auth'
+import { notifySuccess, notifyError } from '@/lib/notifications'
 
 type FormData = {
   name: string
@@ -70,6 +71,7 @@ export default function RegisterPage() {
       
       // Show success message
       setRegisterSuccess(true)
+      notifySuccess('Registration successful! Redirecting to login...')
       
       // Redirect to login page after 2 seconds
       setTimeout(() => {
@@ -79,7 +81,9 @@ export default function RegisterPage() {
     } catch (error: any) {
       console.warn('Registration error:', error)
       const backendMessage = (error?.payload && (error.payload.message || error.payload.error)) || error?.message
-      setServerError(backendMessage || 'Registration failed. Please try again.')
+      const errorMessage = backendMessage || 'Registration failed. Please try again.'
+      setServerError(errorMessage)
+      notifyError(errorMessage)
       setIsSubmitting(false)
     }
   }

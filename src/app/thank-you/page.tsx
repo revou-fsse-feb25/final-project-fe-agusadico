@@ -5,6 +5,7 @@ import Link from 'next/link';
 import Navbar from '../../components/Navbar';
 import Footer from '../../components/Footer';
 import { ProductType } from '../../types/product';
+import { notifySuccess } from '@/lib/notifications';
 
 // Define types for the component
 type CartItem = {
@@ -48,6 +49,8 @@ export default function ThankYouPage() {
   });
   
   useEffect(() => {
+    // Show order success notification when the page loads
+    notifySuccess('Order placed successfully! Thank you for your purchase.');
     // Get order data from localStorage
     const storedOrderData = localStorage.getItem('orderData');
     if (storedOrderData) {

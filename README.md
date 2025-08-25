@@ -11,6 +11,7 @@ This is a modern restaurant management system built with Next.js 15.3.4 and Reac
 - **Admin Dashboard**: Manage products, orders, and customer data
 - **Responsive Design**: Optimized for both mobile and desktop experiences
 - **PDF Generation**: Create receipts and reports with jsPDF and html2canvas
+- **Notifications**: Toast notifications for user actions with react-toastify
 
 ## Screenshots
 
@@ -23,6 +24,9 @@ This is a modern restaurant management system built with Next.js 15.3.4 and Reac
 
 ![Menu Page](public/images/documentation/17.jpg)
 *Menu page with filter options and product list*
+
+![Menu Page](public/images/documentation/19-toast.png)
+*Menu page with filter options and product list with toast notification*
 
 ![Product Detail](public/images/documentation/18.jpg)
 *Detailed product view with image gallery and ordering options*

@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { ProductType } from '../types/product';
+import { notifySuccess, notifyError, notifyInfo } from '@/lib/notifications';
 
 type CartItem = {
   product: ProductType;
@@ -41,25 +42,43 @@ export function CartProvider({ children }: { children: ReactNode }) {
   }, [cartItems]);
 
   const addToCart = (product: ProductType, quantity: number) => {
-    setCartItems(prevItems => {
-      const existingItem = prevItems.find(item => item.product.id === product.id);
-      
-      if (existingItem) {
-        // Update quantity if item already exists
-        return prevItems.map(item => 
-          item.product.id === product.id 
-            ? { ...item, quantity: item.quantity + quantity } 
-            : item
-        );
-      } else {
-        // Add new item
-        return [...prevItems, { product, quantity }];
-      }
-    });
+    try {
+      setCartItems(prevItems => {
+        const existingItem = prevItems.find(item => item.product.id === product.id);
+        
+        if (existingItem) {
+          // Update quantity if item already exists
+          notifySuccess(`Updated quantity of ${product.name} in your cart`);
+          return prevItems.map(item => 
+            item.product.id === product.id 
+              ? { ...item, quantity: item.quantity + quantity } 
+              : item
+          );
+        } else {
+          // Add new item
+          notifySuccess(`${product.name} added to your cart`);
+          return [...prevItems, { product, quantity }];
+        }
+      });
+    } catch (error) {
+      notifyError('Failed to add item to cart');
+      console.error('Error adding to cart:', error);
+    }
   };
 
   const removeFromCart = (productId: number) => {
-    setCartItems(prevItems => prevItems.filter(item => item.product.id !== productId));
+    try {
+      // Find the product name before removing
+      const itemToRemove = cartItems.find(item => item.product.id === productId);
+      setCartItems(prevItems => prevItems.filter(item => item.product.id !== productId));
+      
+      if (itemToRemove) {
+        notifyInfo(`${itemToRemove.product.name} removed from your cart`);
+      }
+    } catch (error) {
+      notifyError('Failed to remove item from cart');
+      console.error('Error removing from cart:', error);
+    }
   };
 
   const updateQuantity = (productId: number, quantity: number) => {

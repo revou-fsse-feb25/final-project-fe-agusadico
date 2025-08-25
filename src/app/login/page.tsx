@@ -7,6 +7,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Navbar from '../../components/Navbar'
 import Footer from '../../components/Footer'
+import { notifySuccess, notifyError } from '@/lib/notifications'
 
 export default function LoginPage() {
   const [isLoading, setIsLoading] = useState(false)
@@ -49,9 +50,13 @@ export default function LoginPage() {
       
       if (result?.error) {
         setError('Invalid email or password')
+        notifyError('Invalid email or password')
         setIsLoading(false)
         return
       }
+      
+      // Show success notification
+      notifySuccess('Login successful!')
       
       // NextAuth will handle the session, we just need to redirect based on role
       const session = await fetch('/api/auth/session')
