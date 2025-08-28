@@ -153,7 +153,7 @@ export default function OrderOptions({
         email: formData.email,
         address: formData.address || '',
         city: formData.city || '',
-        // Remove birthday field as it's causing validation errors
+        birthday: new Date().toISOString().split('T')[0] // Add default birthday
       };
       
       // Call the registration API

@@ -18,7 +18,7 @@ export default function OrderDetailPage() {
   const [orderID, setOrderID] = useState('02M07VZNZSA005');
   const [pickupNumber, setPickupNumber] = useState('NA005');
   const [paymentTimeLeft, setPaymentTimeLeft] = useState(54 * 60 + 3); // 54 minutes and 3 seconds
-  const [orderItems, setOrderItems] = useState([]);
+  const [orderItems, setOrderItems] = useState<typeof cartItems>([]);
   const [paymentMethod, setPaymentMethod] = useState('qris'); // Default to QRIS
   
   // Order type and location state
@@ -26,7 +26,10 @@ export default function OrderDetailPage() {
   const [orderLocation, setOrderLocation] = useState('TEBET'); // Default location
   
   // Booking information state
-  const [bookingInfo, setBookingInfo] = useState({
+  const [bookingInfo, setBookingInfo] = useState<{
+    mode: 'NOW' | 'SCHEDULED';
+    iso?: string;
+  }>({
     mode: 'NOW',
     iso: new Date().toISOString()
   });
@@ -345,7 +348,7 @@ export default function OrderDetailPage() {
                   </div>
                   
                   <p className="text-sm text-gray-600 mt-3">
-                    Please transfer the exact amount of <span className="font-medium">Rp{total.toFixed(2)}</span> and include your Order ID <span className="font-medium">{orderID}</span> in the transfer description.
+                    Please transfer the exact amount of <span className="font-medium">${total.toFixed(2)}</span> and include your Order ID <span className="font-medium">{orderID}</span> in the transfer description.
                   </p>
                 </div>
               )}
@@ -360,7 +363,7 @@ export default function OrderDetailPage() {
                   </div>
                   <p className="text-lg font-medium mb-2">Cash Payment</p>
                   <p className="text-sm text-gray-600">
-                    Please pay <span className="font-medium">Rp{total.toFixed(2)}</span> at the counter when you pick up your order.
+                    Please pay <span className="font-medium">${total.toFixed(2)}</span> at the counter when you pick up your order.
                   </p>
                   <p className="text-sm text-gray-600 mt-2">
                     Your order will be prepared once you arrive at the restaurant.
@@ -386,7 +389,7 @@ export default function OrderDetailPage() {
                     </div>
                     <div className="flex-1">
                       <h4 className="font-medium">{item.product.name}</h4>
-                      <p className="text-xs text-gray-500">{item.product.pack}</p>
+                      <p className="text-xs text-gray-500">{item.product.category}</p>
                     </div>
                     <div className="text-right">
                       <span className="text-sm font-medium">{item.quantity}x</span>
@@ -402,15 +405,11 @@ export default function OrderDetailPage() {
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">Tax Base Pay</span>
-                    <span>Rp{subtotal.toFixed(2)}</span>
+                    <span>${subtotal.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-gray-600">Restaurant Tax (10%)</span>
-                    <span>Rp{tax.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between text-sm">
-                    <span className="text-gray-600">Rounding</span>
-                    <span>Rp0</span>
+                    <span>${tax.toFixed(2)}</span>
                   </div>
                 </div>
                 
@@ -631,7 +630,7 @@ export default function OrderDetailPage() {
         paymentMethod={paymentMethod}
         bookingInfo={{
           mode: bookingInfo.mode,
-          iso: bookingInfo.mode === 'NOW' ? new Date().toISOString() : bookingInfo.iso
+          iso: bookingInfo.mode === 'NOW' ? new Date().toISOString() : (bookingInfo.iso || new Date().toISOString())
         }}
         total={total}
         onPrint={() => console.log('Receipt printed successfully')}

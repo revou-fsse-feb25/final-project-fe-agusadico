@@ -44,10 +44,13 @@ const MOCK_CUSTOMERS: { [key: string]: CustomerType & {
   // Add more mock customers as needed
 };
 
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
+export async function GET(request: NextRequest) {
+  // Extract ID from URL path
+  const url = new URL(request.url);
+  const pathParts = url.pathname.split('/');
+  const customerId = pathParts[pathParts.length - 1];
+  
   try {
-    const customerId = params.id;
-    
     // In a real app, you would fetch from a database
     // For now, use mock data
     const customer = MOCK_CUSTOMERS[customerId];
@@ -69,9 +72,13 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PUT(request: NextRequest) {
+  // Extract ID from URL path
+  const url = new URL(request.url);
+  const pathParts = url.pathname.split('/');
+  const customerId = pathParts[pathParts.length - 1];
+  
   try {
-    const customerId = params.id;
     const data = await request.json();
     
     // In a real app, you would update in a database
@@ -96,6 +103,40 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     console.error('Error updating customer:', error);
     return NextResponse.json(
       { error: 'Failed to update customer' },
+      { status: 500 }
+    );
+  }
+}
+
+export async function DELETE(request: NextRequest) {
+  // Extract ID from URL path
+  const url = new URL(request.url);
+  const pathParts = url.pathname.split('/');
+  const customerId = pathParts[pathParts.length - 1];
+  
+  try {
+    // In a real app, you would delete from a database
+    // For now, just log the deletion attempt
+    console.log('Deleting customer:', customerId);
+    
+    // Check if customer exists
+    if (!MOCK_CUSTOMERS[customerId]) {
+      return NextResponse.json(
+        { error: 'Customer not found' },
+        { status: 404 }
+      );
+    }
+    
+    // In a real app, you would actually delete the customer
+    // For now, just return success
+    return NextResponse.json({
+      success: true,
+      message: 'Customer deleted successfully'
+    });
+  } catch (error) {
+    console.error('Error deleting customer:', error);
+    return NextResponse.json(
+      { error: 'Failed to delete customer' },
       { status: 500 }
     );
   }

@@ -132,7 +132,7 @@ export default function Receipt({
       {/* Total */}
       <div className="border-t border-gray-300 pt-3 mb-6">
         <div className="flex justify-between font-bold text-lg">
-          <span>TOTAL:</span>
+          <span className="text-sm">TOTAL with tax 10%:</span>
           <span>${total.toFixed(2)}</span>
         </div>
       </div>

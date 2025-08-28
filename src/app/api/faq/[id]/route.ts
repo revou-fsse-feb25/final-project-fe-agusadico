@@ -6,8 +6,12 @@ import { FAQItem } from '@/types/faq';
 declare const faqItems: FAQItem[];
 
 // GET /api/faq/[id] - Get a specific FAQ item
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
-  const id = params.id;
+export async function GET(request: NextRequest) {
+  // Extract ID from URL path
+  const url = new URL(request.url);
+  const pathParts = url.pathname.split('/');
+  const id = pathParts[pathParts.length - 1];
+  
   const faqItem = faqItems.find(item => item.id === id);
   
   if (!faqItem) {
@@ -21,9 +25,13 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 }
 
 // PATCH /api/faq/[id] - Update a specific FAQ item
-export async function PATCH(request: NextRequest, { params }: { params: { id: string } }) {
+export async function PATCH(request: NextRequest) {
   try {
-    const id = params.id;
+    // Extract ID from URL path
+    const url = new URL(request.url);
+    const pathParts = url.pathname.split('/');
+    const id = pathParts[pathParts.length - 1];
+    
     const data = await request.json();
     
     const faqItemIndex = faqItems.findIndex(item => item.id === id);
@@ -55,9 +63,12 @@ export async function PATCH(request: NextRequest, { params }: { params: { id: st
 }
 
 // DELETE /api/faq/[id] - Delete a specific FAQ item
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+export async function DELETE(request: NextRequest) {
   try {
-    const id = params.id;
+    // Extract ID from URL path
+    const url = new URL(request.url);
+    const pathParts = url.pathname.split('/');
+    const id = pathParts[pathParts.length - 1];
     
     const faqItemIndex = faqItems.findIndex(item => item.id === id);
     

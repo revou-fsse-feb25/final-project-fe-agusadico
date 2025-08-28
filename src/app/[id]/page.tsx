@@ -18,7 +18,7 @@ interface Product {
   category: string;
   price: number;
   originalPrice?: number;
-  discount?: string;
+  discount?: number;
   image: string;
   description: string;
   features: string[];

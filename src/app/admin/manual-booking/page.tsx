@@ -19,7 +19,7 @@ const products: ProductType[] = [
     category: "Ramen",
     price: 12.00,
     originalPrice: 14.00,
-    discount: "14%",
+    discount: 14,
     image: "/images/menu/Legendary-Chicken-Ramen.jpg",
     //pack: "12 fl oz, 10 Pack Bottles"
   },
@@ -29,7 +29,7 @@ const products: ProductType[] = [
     category: "Dry Ramen",
     price: 6.00,
     originalPrice: 12.00,
-    discount: "50%",
+    discount: 50,
     image: "/images/menu/Karaage-Dry-Ramen.jpg",
     //pack: "12 fl oz, 10 Pack Bottles"
   },
@@ -39,7 +39,7 @@ const products: ProductType[] = [
     category: "Donburi",
     price: 14.00,
     originalPrice: 16.00,
-    discount: "13%",
+    discount: 13,
     image: "/images/menu/Chicken-Katsudon.jpg",
     //pack: "12 fl oz, 10 Pack Bottles"
   },
@@ -49,7 +49,7 @@ const products: ProductType[] = [
     category: "Donburi",
     price: 14.00,
     originalPrice: 16.00,
-    discount: "13%",
+    discount: 13,
     image: "/images/menu/Chicken-Curry-Katsudon.jpg",
     //pack: "12 fl oz, 10 Pack Bottles"
   },
@@ -59,7 +59,7 @@ const products: ProductType[] = [
     category: "Sushi",
     price: 10.00,
     originalPrice: 14.00,
-    discount: "29%",
+    discount: 29,
     image: "/images/menu/Seafood-Spicy-Cruncy-Roll.jpg",
     //pack: "12 fl oz, 10 Pack Bottles"
   },
@@ -69,7 +69,7 @@ const products: ProductType[] = [
     category: "Drinks",
     price: 34.00,
     originalPrice: 44.00,
-    discount: "23%",
+    discount: 23,
     image: "/images/menu/Mango-Yakult.jpg",
     //pack: "12 fl oz, 10 Pack Bottles"
   },
@@ -79,7 +79,7 @@ const products: ProductType[] = [
     category: "Agemono & Gyoza",
     price: 8.00,
     originalPrice: 10.00,
-    discount: "20%",
+    discount: 20,
     image: "/images/menu/Nori-Gyoza-Skin.jpg",
     //pack: "12 fl oz, 10 Pack Bottles"
   },
@@ -89,7 +89,7 @@ const products: ProductType[] = [
     category: "Sushi",
     price: 9.00,
     originalPrice: 12.00,
-    discount: "25%",
+    discount: 25,
     image: "/images/menu/Seafood-Maki-Sushi-Rolls.jpg",
     //pack: "12 fl oz, 10 Pack Bottles"
   }

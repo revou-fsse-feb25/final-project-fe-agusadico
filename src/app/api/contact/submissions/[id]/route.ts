@@ -36,8 +36,12 @@ let submissions: ContactSubmission[] = [
 ];
 
 // GET /api/contact/submissions/[id] - Get a specific submission
-export async function GET(request: NextRequest, { params }: { params: { id: string } }) {
-  const submission = submissions.find(sub => sub.id === params.id);
+export async function GET(request: NextRequest) {
+  // Extract ID from URL path
+  const url = new URL(request.url);
+  const pathParts = url.pathname.split('/');
+  const submissionId = pathParts[pathParts.length - 1];
+  const submission = submissions.find(sub => sub.id === submissionId);
   
   if (!submission) {
     return NextResponse.json(
@@ -50,8 +54,12 @@ export async function GET(request: NextRequest, { params }: { params: { id: stri
 }
 
 // DELETE /api/contact/submissions/[id] - Delete a submission
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
-  const index = submissions.findIndex(sub => sub.id === params.id);
+export async function DELETE(request: NextRequest) {
+  // Extract ID from URL path
+  const url = new URL(request.url);
+  const pathParts = url.pathname.split('/');
+  const submissionId = pathParts[pathParts.length - 1];
+  const index = submissions.findIndex(sub => sub.id === submissionId);
   
   if (index === -1) {
     return NextResponse.json(

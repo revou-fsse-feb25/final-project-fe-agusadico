@@ -285,15 +285,11 @@ export default function CheckoutPage() {
                 <div className="border-t border-gray-200 dark:border-gray-600 pt-4">
                   <div className="flex justify-between mb-2 text-gray-900 dark:text-gray-100">
                     <span className="text-gray-600 dark:text-gray-400">Tax Base Pay</span>
-                    <span>Rp{subtotal.toFixed(2)}</span>
+                    <span>${subtotal.toFixed(2)}</span>
                   </div>
                   <div className="flex justify-between mb-2 text-gray-900 dark:text-gray-100">
                     <span className="text-gray-600 dark:text-gray-400">Restaurant Tax (10%)</span>
-                    <span>Rp{tax.toFixed(2)}</span>
-                  </div>
-                  <div className="flex justify-between mb-2 text-gray-900 dark:text-gray-100">
-                    <span className="text-gray-600 dark:text-gray-400">Rounding</span>
-                    <span>Rp0</span>
+                    <span>${tax.toFixed(2)}</span>
                   </div>
                 </div>
                 

@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState, Suspense } from "react";
 import { useCart } from "../../context/CartContext";
 import { getFilteredAndSortedProducts } from "../../utils/productUtils";
 import { useMenuFilters } from "../../hooks/useMenuFilters";
@@ -13,6 +13,14 @@ import { ProductType } from "../../types/product";
 import { listProducts } from "@/lib/api/products";
 
 export default function MenuPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <MenuContent />
+    </Suspense>
+  );
+}
+
+function MenuContent() {
   // Get cart functionality
   const { addToCart } = useCart();
   

@@ -1,14 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getJwtFromCookies, verifyJwtToken } from '@/lib/auth';
+import { verifyJwtToken } from '@/lib/auth';
 
 export async function GET(request: NextRequest) {
   try {
-    // Get token from cookies
-    const token = getJwtFromCookies();
-    console.log('/me endpoint - Token exists:', !!token);
+    // Get token from request cookies
+    const token = request.cookies.get('auth-token')?.value;
     
     if (!token) {
-      console.log('/me endpoint - No token found');
       return NextResponse.json(
         { error: 'Not authenticated' },
         { status: 401 }
@@ -20,7 +18,6 @@ export async function GET(request: NextRequest) {
     console.log('/me endpoint - Token verification result:', userData);
     
     if (!userData) {
-      console.log('/me endpoint - Invalid token');
       return NextResponse.json(
         { error: 'Invalid token' },
         { status: 401 }

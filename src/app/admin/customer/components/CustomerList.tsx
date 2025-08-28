@@ -5,139 +5,29 @@ import { CustomerType } from '../../../../types/customer'
 import ActionMenu from '../../components/ActionMenu'
 import { useRouter } from 'next/navigation'
 
-// Mock data for customers
-const MOCK_CUSTOMERS: CustomerType[] = [
-  {
-    id: '1',
-    customerId: '#5552351',
-    name: 'James Whiteley',
-    email: 'james.whiteley@example.com',
-    joinDate: '26 March 2020, 12:42 AM',
-    location: 'Corner Street 5th London',
-    totalSpent: 194.82,
-    lastOrder: {
-      amount: 14.85,
-      date: '2023-10-15'
-    }
-  },
-  {
-    id: '2',
-    customerId: '#5552323',
-    name: 'Veronica',
-    email: 'veronica@example.com',
-    joinDate: '26 March 2020, 12:42 AM',
-    location: '21 King Street London',
-    totalSpent: 74.92,
-    lastOrder: {
-      amount: 9.13,
-      date: '2023-10-12'
-    }
-  },
-  {
-    id: '3',
-    customerId: '#5552375',
-    name: 'Emilia Johanson',
-    email: 'emilia.johanson@example.com',
-    joinDate: '26 March 2020, 03:12 AM',
-    location: '67 St. John\'s Road London',
-    totalSpent: 251.16,
-    lastOrder: {
-      amount: 13.91,
-      date: '2023-10-10'
-    }
-  },
-  {
-    id: '4',
-    customerId: '#5552311',
-    name: 'Olivia Shine',
-    email: 'olivia.shine@example.com',
-    joinDate: '26 March 2020, 12:42 AM',
-    location: '35 Station Road London',
-    totalSpent: 52.46,
-    lastOrder: {
-      amount: 14.85,
-      date: '2023-10-08'
-    }
-  },
-  {
-    id: '5',
-    customerId: '#5552388',
-    name: 'Jessica Wong',
-    email: 'jessica.wong@example.com',
-    joinDate: '26 March 2020, 03:12 AM',
-    location: '11 Church Road',
-    totalSpent: 24.17,
-    lastOrder: {
-      amount: 11.41,
-      date: '2023-10-05'
-    }
-  },
-  {
-    id: '6',
-    customerId: '#5552358',
-    name: 'David Holsten',
-    email: 'david.holsten@example.com',
-    joinDate: '26 March 2020, 01:42 PM',
-    location: '981 St. John\'s Road London',
-    totalSpent: 24.55,
-    lastOrder: {
-      amount: 17.37,
-      date: '2023-10-03'
-    }
-  },
-  {
-    id: '7',
-    customerId: '#5552322',
-    name: 'Samantha Bake',
-    email: 'samantha.bake@example.com',
-    joinDate: '26 March 2020, 12:42 AM',
-    location: '79 The Drive London',
-    totalSpent: 22.18,
-    lastOrder: {
-      amount: 11.41,
-      date: '2023-09-29'
-    }
-  },
-  {
-    id: '8',
-    customerId: '#5552397',
-    name: 'Franky Sihotang',
-    email: 'franky.sihotang@example.com',
-    joinDate: '26 March 2020, 03:12 AM',
-    location: '6 The Avenue London',
-    totalSpent: 45.86,
-    lastOrder: {
-      amount: 18.98,
-      date: '2023-09-25'
-    }
-  },
-  {
-    id: '9',
-    customerId: '#5552349',
-    name: 'Roberto Carlo',
-    email: 'roberto.carlo@example.com',
-    joinDate: '26 March 2020, 12:42 AM',
-    location: '544 Manor Road London',
-    totalSpent: 34.41,
-    lastOrder: {
-      amount: 11.41,
-      date: '2023-09-20'
-    }
-  },
-  {
-    id: '10',
-    customerId: '#5552356',
-    name: 'Randy Greenlea',
-    email: 'randy.greenlea@example.com',
-    joinDate: '26 March 2020, 03:12 AM',
-    location: '32 The Green London',
-    totalSpent: 44.99,
-    lastOrder: {
-      amount: 19.98,
-      date: '2023-09-15'
-    }
-  },
-];
+// Helper functions for formatting data
+const formatCurrency = (amount: number): string => {
+  return new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+    minimumFractionDigits: 2
+  }).format(amount);
+};
+
+const formatDate = (dateString: string): string => {
+  try {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', {
+      day: 'numeric',
+      month: 'long',
+      year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit'
+    });
+  } catch (error) {
+    return dateString || '-';
+  }
+};
 
 export default function CustomerList() {
   const [customers, setCustomers] = useState<CustomerType[]>([])
@@ -145,31 +35,41 @@ export default function CustomerList() {
   const [currentPage, setCurrentPage] = useState(1)
   const [totalPages, setTotalPages] = useState(1)
   const [activeMenu, setActiveMenu] = useState<string | null>(null)
-  const customersPerPage = 10
+  const [customersPerPage] = useState(10)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
-    // Simulate API call to fetch customers
+    // Fetch customers from real API
     const fetchCustomers = async () => {
       setLoading(true)
+      setError(null)
       try {
-        // In a real app, this would be an API call
-        // const response = await fetch('/api/admin/customers')
-        // const data = await response.json()
+        const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4005'
+        const response = await fetch(`${apiUrl}/customers`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          credentials: 'include',
+        })
         
-        // Using mock data instead
-        setTimeout(() => {
-          setCustomers(MOCK_CUSTOMERS)
-          setTotalPages(Math.ceil(MOCK_CUSTOMERS.length / customersPerPage))
-          setLoading(false)
-        }, 800)
+        if (!response.ok) {
+          throw new Error(`Error fetching customers: ${response.status} ${response.statusText}`)
+        }
+        
+        const data = await response.json()
+        setCustomers(data)
+        setTotalPages(Math.ceil(data.length / customersPerPage))
       } catch (error) {
-        console.error('Error fetching customers:', error)
+        console.error('Failed to fetch customers:', error)
+        setError(error instanceof Error ? error.message : 'Failed to fetch customers')
+      } finally {
         setLoading(false)
       }
     }
     
     fetchCustomers()
-  }, [])
+  }, [customersPerPage])
 
   // Get current customers for pagination
   const indexOfLastCustomer = currentPage * customersPerPage
@@ -236,7 +136,6 @@ export default function CustomerList() {
       <div className="p-6">
         <h2 className="text-xl font-bold mb-6">Customer List</h2>
       </div>
-      
       <div className="overflow-x-auto">
         <table className="w-full text-left">
           <thead>
@@ -251,98 +150,117 @@ export default function CustomerList() {
             </tr>
           </thead>
           <tbody>
-            {currentCustomers.map((customer) => (
-              <tr key={customer.id} className="border-b hover:bg-gray-50">
-                <td className="p-4 text-gray-700">{customer.customerId}</td>
-                <td className="p-4 text-gray-700">{customer.joinDate}</td>
-                <td className="p-4 text-gray-700">{customer.name}</td>
-                <td className="p-4 text-gray-700">{customer.location}</td>
-                <td className="p-4 text-gray-700">${customer.totalSpent.toFixed(2)}</td>
-                <td className="p-4">
-                  <span className="bg-rose-600 text-white text-xs font-medium px-3 py-1 rounded">
-                    ${customer.lastOrder.amount.toFixed(2)}
-                  </span>
-                </td>
-                <td className="p-4 relative">
-                  <button 
-                    className="text-gray-500 hover:text-gray-700"
-                    onClick={() => toggleMenu(customer.id)}
-                    aria-label="Menu"
-                  >
-                    <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                      <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
-                    </svg>
-                  </button>
-                  
-                  {activeMenu === customer.id && (
-                    <ActionMenu
-                      isOpen={true}
-                      onClose={() => setActiveMenu(null)}
-                      actions={[
-                        {
-                          label: 'Accept order',
-                          icon: (
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
-                            </svg>
-                          ),
-                          onClick: () => handleAcceptOrder(customer.id),
-                          color: 'text-green-500'
-                        },
-                        {
-                          label: 'Reject order',
-                          icon: (
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-                            </svg>
-                          ),
-                          onClick: () => handleRejectOrder(customer.id),
-                          color: 'text-red-500'
-                        },
-                        {
-                          label: 'View Details',
-                          icon: (
-                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                              <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
-                              <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
-                            </svg>
-                          ),
-                          onClick: () => handleViewDetails(customer.id),
-                          color: 'text-gray-500'
-                        },
-                      ]}
-                    />
-                  )}
+            {error ? (
+              <tr>
+                <td colSpan={7} className="text-center py-4 text-red-500">
+                  {error}
                 </td>
               </tr>
-            ))}
+            ) : (
+              currentCustomers.map((customer) => (
+                <tr key={customer.id} className="border-b hover:bg-gray-50">
+                  <td className="p-4 text-gray-700">{customer.customerId || '-'}</td>
+                  <td className="p-4 text-gray-700">{customer.joinDate ? formatDate(customer.joinDate) : '-'}</td>
+                  <td className="p-4 text-gray-700">{customer.name || '-'}</td>
+                  <td className="p-4 text-gray-700">{customer.location || '-'}</td>
+                  <td className="p-4 text-gray-700">{customer.totalSpent ? formatCurrency(customer.totalSpent) : '-'}</td>
+                  <td className="p-4">
+                    {customer.lastOrder && customer.lastOrder.amount ? (
+                      <span className="bg-rose-600 text-white text-xs font-medium px-3 py-1 rounded">
+                        {formatCurrency(customer.lastOrder.amount)}
+                      </span>
+                    ) : (
+                      '-'
+                    )}
+                  </td>
+                  <td className="p-4 relative">
+                    <button 
+                      className="text-gray-500 hover:text-gray-700"
+                      onClick={() => toggleMenu(customer.id)}
+                      aria-label="Menu"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z" />
+                      </svg>
+                    </button>
+                    
+                    {activeMenu === customer.id && (
+                      <ActionMenu
+                        isOpen={true}
+                        onClose={() => setActiveMenu(null)}
+                        actions={[
+                          {
+                            label: 'Accept order',
+                            icon: (
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+                              </svg>
+                            ),
+                            onClick: () => handleAcceptOrder(customer.id),
+                            color: 'text-green-500'
+                          },
+                          {
+                            label: 'Reject order',
+                            icon: (
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
+                              </svg>
+                            ),
+                            onClick: () => handleRejectOrder(customer.id),
+                            color: 'text-red-500'
+                          },
+                          {
+                            label: 'View details',
+                            icon: (
+                              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M10 12a2 2 0 100-4 2 2 0 000 4z" />
+                                <path fillRule="evenodd" d="M.458 10C1.732 5.943 5.522 3 10 3s8.268 2.943 9.542 7c-1.274 4.057-5.064 7-9.542 7S1.732 14.057.458 10zM14 10a4 4 0 11-8 0 4 4 0 018 0z" clipRule="evenodd" />
+                              </svg>
+                            ),
+                            onClick: () => handleViewDetails(customer.id),
+                            color: 'text-blue-500'
+                          }
+                        ]}
+                      />
+                    )}
+                  </td>
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
       
       {/* Pagination */}
-      <div className="p-4 flex justify-between items-center border-t">
-        <div className="text-sm text-gray-500">
-          Showing {indexOfFirstCustomer + 1} to {Math.min(indexOfLastCustomer, customers.length)} of {customers.length} entries
-        </div>
-        <div className="flex gap-2">
-          <button 
-            onClick={goToPreviousPage} 
+      {!error && totalPages > 1 && (
+        <div className="flex justify-between items-center p-4 border-t">
+          <button
+            onClick={goToPreviousPage}
             disabled={currentPage === 1}
-            className={`px-4 py-2 rounded ${currentPage === 1 ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-rose-600 text-white hover:bg-rose-700'}`}
+            className={`px-4 py-2 rounded ${
+              currentPage === 1
+                ? 'text-gray-400 cursor-not-allowed'
+                : 'text-gray-700 hover:bg-gray-100'
+            }`}
           >
             Previous
           </button>
-          <span className="px-4 py-2 bg-gray-100 rounded">{currentPage}</span>
-          <button 
-            onClick={goToNextPage} 
+          <span className="text-gray-600">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={goToNextPage}
             disabled={currentPage === totalPages}
-            className={`px-4 py-2 rounded ${currentPage === totalPages ? 'bg-gray-200 text-gray-500 cursor-not-allowed' : 'bg-rose-600 text-white hover:bg-rose-700'}`}
+            className={`px-4 py-2 rounded ${
+              currentPage === totalPages
+                ? 'text-gray-400 cursor-not-allowed'
+                : 'text-gray-700 hover:bg-gray-100'
+            }`}
           >
             Next
           </button>
         </div>
-      </div>
+      )}
     </div>
   )
 }

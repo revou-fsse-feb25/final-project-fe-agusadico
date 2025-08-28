@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { AboutContent } from '../../../types/about';
 
-// Mock data for development
-// Export the variable so it can be imported by other modules
-export let MOCK_ABOUT_CONTENT: AboutContent = {
+// Mock data for about content
+const MOCK_ABOUT_CONTENT: AboutContent = {
   id: '1',
-  description: 'Welcome to Ramen President, where passion for authentic flavors meets exceptional dining experiences. Since our founding in 2025, we\'ve been dedicated to bringing the finest quality food to our customers.\n\nOur journey began with a simple idea: to create a restaurant that serves delicious food made from the freshest ingredients in a welcoming atmosphere. Today, we\'re proud to have grown into a beloved establishment with multiple locations while staying true to our original vision.',
-  vision: 'To be the most loved and preferred food brand, creating memorable dining experiences through our exceptional food quality, service, and ambiance.',
-  mission: 'We are committed to delighting our customers with delicious, high-quality food made from the finest ingredients. We strive to provide exceptional service in a welcoming atmosphere while maintaining sustainable business practices and supporting the communities we serve.',
+  description: 'Welcome to Ramen President, where passion for authentic flavors meets exceptional dining experiences.',
+  vision: 'To be the most loved and preferred food brand.',
+  mission: 'We are committed to delighting our customers with delicious, high-quality food.',
   teamMembers: [
     {
       id: '1',
@@ -31,15 +30,16 @@ export let MOCK_ABOUT_CONTENT: AboutContent = {
       profileImage: '/images/profile-pic.webp'
     }
   ],
-  awardsDescription: 'We\'re proud to have been recognized for our commitment to excellence in food quality and customer service.',
+  awardsDescription: 'We\'re proud to have been recognized for our commitment to excellence.',
   halalCertification: {
     title: 'Certified Halal',
-    description: 'We are proud to announce that all our restaurants have received Halal certification from the Islamic Food and Nutrition Council. This certification ensures that our food preparation methods and ingredients comply with Islamic dietary laws.',
+    description: 'We are proud to announce that all our restaurants have received Halal certification.',
     certificateNumber: 'HAL-12345-ID',
     validUntil: '2024-12-31'
   }
 };
 
+// GET handler for about content
 export async function GET() {
   try {
     // In a real app, you would fetch from a database
@@ -59,15 +59,19 @@ export async function PUT(request: NextRequest) {
     const data = await request.json();
     
     // In a real app, you would update in a database
-    // For now, just update the mock data
-    MOCK_ABOUT_CONTENT = {
+    // For now, just log the update (can't modify constants)
+    console.log('Would update about content with:', data);
+    
+    // Return the data as if it was updated
+    const updatedContent = {
       ...MOCK_ABOUT_CONTENT,
       ...data,
     };
     
     return NextResponse.json({
       success: true,
-      message: 'About content updated successfully'
+      message: 'About content updated successfully',
+      data: updatedContent
     });
   } catch (error) {
     console.error('Error updating about content:', error);

@@ -1,18 +1,69 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { TeamMember } from '../../../../../types/about';
 
-// Import the parent route module instead of just the MOCK_ABOUT_CONTENT
-import { MOCK_ABOUT_CONTENT } from '../../../about/route';
+// Mock team members data
+const mockTeamMembers = [
+  {
+    id: '1',
+    name: 'Agus Adi',
+    position: 'Chief Executive Officer',
+    description: 'Leads our company with over 15 years of restaurant industry experience.',
+    profileImage: '/images/profile-pic.webp'
+  },
+  {
+    id: '2',
+    name: 'Dadang Smith',
+    position: 'Chief Operations Officer',
+    description: 'Oversees daily operations with a focus on customer satisfaction.',
+    profileImage: '/images/profile-pic.webp'
+  },
+  {
+    id: '3',
+    name: 'Dudung Johnson',
+    position: 'Executive Chef',
+    description: 'Creates our innovative menu with a passion for authentic flavors.',
+    profileImage: '/images/profile-pic.webp'
+  }
+];
 
-// No need for the getMockContent workaround anymore
-
-export async function PUT(request: NextRequest, { params }: { params: { id: string } }) {
+// GET handler for team member by ID
+export async function GET(request: NextRequest) {
   try {
-    const memberId = params.id;
+    // Extract ID from URL path
+    const url = new URL(request.url);
+    const pathParts = url.pathname.split('/');
+    const memberId = pathParts[pathParts.length - 1];
+    
+    const member = mockTeamMembers.find(m => m.id === memberId);
+    
+    if (!member) {
+      return NextResponse.json(
+        { error: 'Team member not found' },
+        { status: 404 }
+      );
+    }
+    
+    return NextResponse.json(member);
+  } catch (error) {
+    console.error('Error fetching team member:', error);
+    return NextResponse.json(
+      { error: 'Failed to fetch team member' },
+      { status: 500 }
+    );
+  }
+}
+
+// PUT handler for updating team member
+export async function PUT(request: NextRequest) {
+  try {
+    // Extract ID from URL path
+    const url = new URL(request.url);
+    const pathParts = url.pathname.split('/');
+    const memberId = pathParts[pathParts.length - 1];
+    
     const data = await request.json();
     
-    // Use MOCK_ABOUT_CONTENT directly
-    const memberIndex = MOCK_ABOUT_CONTENT.teamMembers.findIndex(
+    const memberIndex = mockTeamMembers.findIndex(
       (member: TeamMember) => member.id === memberId
     );
     
@@ -24,17 +75,13 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
     }
     
     // Update the team member
-    MOCK_ABOUT_CONTENT.teamMembers[memberIndex] = {
-      ...MOCK_ABOUT_CONTENT.teamMembers[memberIndex],
+    mockTeamMembers[memberIndex] = {
+      ...mockTeamMembers[memberIndex],
       ...data
     };
     
-    return NextResponse.json({
-      success: true,
-      message: 'Team member updated successfully',
-      teamMember: MOCK_ABOUT_CONTENT.teamMembers[memberIndex]
-    });
-  } catch (error: unknown) {
+    return NextResponse.json(mockTeamMembers[memberIndex]);
+  } catch (error) {
     console.error('Error updating team member:', error);
     return NextResponse.json(
       { error: 'Failed to update team member' },
@@ -43,13 +90,15 @@ export async function PUT(request: NextRequest, { params }: { params: { id: stri
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: { params: { id: string } }) {
+// DELETE handler for removing team member
+export async function DELETE(request: NextRequest) {
   try {
-    const memberId = params.id;
+    // Extract ID from URL path
+    const url = new URL(request.url);
+    const pathParts = url.pathname.split('/');
+    const memberId = pathParts[pathParts.length - 1];
     
-    // Use MOCK_ABOUT_CONTENT directly instead of getMockContent()
-    // Find the team member index with proper type checking
-    const memberIndex = MOCK_ABOUT_CONTENT.teamMembers.findIndex(
+    const memberIndex = mockTeamMembers.findIndex(
       (member: TeamMember) => member.id === memberId
     );
     
@@ -61,13 +110,13 @@ export async function DELETE(request: NextRequest, { params }: { params: { id: s
     }
     
     // Remove the team member
-    MOCK_ABOUT_CONTENT.teamMembers.splice(memberIndex, 1);
+    mockTeamMembers.splice(memberIndex, 1);
     
     return NextResponse.json({
       success: true,
       message: 'Team member deleted successfully'
     });
-  } catch (error: unknown) {
+  } catch (error) {
     console.error('Error deleting team member:', error);
     return NextResponse.json(
       { error: 'Failed to delete team member' },

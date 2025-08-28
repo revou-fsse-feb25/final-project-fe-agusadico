@@ -110,8 +110,8 @@ export async function http<T = unknown>(path: string, options: HttpOptions = {})
   }
 
   if (!isJson) {
-    // @ts-expect-error generic cast for non-json consumers
-    return (await response.text()) as T;
+    // Cast text response to generic type
+    return await response.text() as unknown as T;
   }
   return (await response.json()) as T;
 }

@@ -6,7 +6,7 @@ import { useForm, SubmitHandler } from 'react-hook-form'
 import Image from 'next/image'
 import { ProductType } from '../../../../types/product'
 import Accordion, { AccordionItem } from '../../../../components/Accordion'
-import { update } from '../../../../lib/api/products'
+// Using native fetch instead of imported API functions
 
 type ProductFormProps = {
   product: ProductType | null
@@ -19,7 +19,7 @@ type FormInputs = {
   category: string
   price: number
   originalPrice?: number
-  discount?: string
+  discount?: number
   image: string
   description?: string
   features?: string
@@ -50,6 +50,7 @@ export default function ProductForm({ product, isNewProduct }: ProductFormProps)
     watch,
     getValues
   } = useForm<FormInputs>({
+    mode: 'onBlur',
     defaultValues: {
       name: product?.name || '',
       slug: product?.slug || '',
@@ -131,8 +132,6 @@ export default function ProductForm({ product, isNewProduct }: ProductFormProps)
         description: data.description,
         features: data.features ? data.features.split('\n').filter(f => f.trim()) : [],
         sku: data.sku,
-        rating: 0, // Default value
-        reviewCount: 0, // Default value
         inStock: data.inStock,
         slug: data.slug,
         categories: data.categories || [],
@@ -153,9 +152,25 @@ export default function ProductForm({ product, isNewProduct }: ProductFormProps)
           router.push('/admin/product')
         }, 1000)
       } else {
-        // Production mode: make real API call
+        // Production mode: make real API call using native fetch
         console.log('🚀 Production Mode: Making real API call to update product')
-        await update(product.id, updateData)
+        
+        const apiUrl = `${process.env.NEXT_PUBLIC_API_URL}/products/${product.id}`;
+        const response = await fetch(apiUrl, {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(updateData)
+        });
+        
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw {
+            status: response.status,
+            message: errorData.message || `Error: ${response.status} ${response.statusText}`
+          };
+        }
         
         // Show success message
         setSubmitSuccess(true)
@@ -362,7 +377,10 @@ export default function ProductForm({ product, isNewProduct }: ProductFormProps)
                   type="text"
                   className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${errors.name ? 'border-red-500' : 'border-gray-300'}`}
                   placeholder="Product name"
-                  {...register('name', { required: 'Product name is required' })}
+                  {...register('name', { 
+                    required: 'Product name is required',
+                    minLength: { value: 3, message: 'Name must be at least 3 characters' }
+                  })}
                 />
                 {errors.name && (
                   <p className="mt-1 text-sm text-red-600">{errors.name.message}</p>
@@ -372,16 +390,25 @@ export default function ProductForm({ product, isNewProduct }: ProductFormProps)
               {/* New Slug Field */}
               <div>
                 <label htmlFor="slug" className="block text-sm font-medium text-gray-700 mb-1">
-                  Slug
+                  Slug <span className="text-red-500">*</span>
                 </label>
                 <input
                   id="slug"
                   type="text"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${errors.slug ? 'border-red-500' : 'border-gray-300'}`}
                   placeholder="product-url-slug"
-                  {...register('slug')}
+                  {...register('slug', { 
+                    required: 'Slug is required',
+                    pattern: {
+                      value: /^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+                      message: 'Slug must contain only lowercase letters, numbers, and hyphens'
+                    }
+                  })}
                 />
                 <p className="mt-1 text-xs text-gray-500">Leave empty to auto-generate from product name</p>
+                {errors.slug && (
+                  <p className="mt-1 text-sm text-red-600">{errors.slug.message}</p>
+                )}
               </div>
               
               <div>
@@ -431,7 +458,8 @@ export default function ProductForm({ product, isNewProduct }: ProductFormProps)
                         value: 0,
                         message: 'Price must be greater than or equal to 0'
                       },
-                      valueAsNumber: true
+                      valueAsNumber: true,
+                      validate: (value) => value > 0 || 'Price must be greater than 0'
                     })}
                   />
                   {errors.price && (
@@ -502,15 +530,21 @@ export default function ProductForm({ product, isNewProduct }: ProductFormProps)
             <div className="space-y-6">
               <div>
                 <label htmlFor="sku" className="block text-sm font-medium text-gray-700 mb-1">
-                  SKU
+                  SKU <span className="text-red-500">*</span>
                 </label>
                 <input
                   id="sku"
                   type="text"
-                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-red-500"
+                  className={`w-full px-4 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-red-500 ${errors.sku ? 'border-red-500' : 'border-gray-300'}`}
                   placeholder="Stock Keeping Unit"
-                  {...register('sku')}
+                  {...register('sku', { 
+                    required: 'SKU is required',
+                    minLength: { value: 3, message: 'SKU must be at least 3 characters' }
+                  })}
                 />
+                {errors.sku && (
+                  <p className="mt-1 text-sm text-red-600">{errors.sku.message}</p>
+                )}
               </div>
               
               <div>
