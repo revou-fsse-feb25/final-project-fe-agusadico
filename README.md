@@ -47,8 +47,11 @@ You can access the live demo of the Ramen President Restaurant Management System
 ![Checkout](public/images/documentation/20.jpg)
 *Checkout page with order summary and payment options*
 
-![Order Confirmation](public/images/documentation/21.jpg)
+![Order Confirmation](public/images/documentation/23_orderdetail.png)
 *Order confirmation page with order details and receipt*
+
+![Print PDF & Edit User Page](public/images/documentation/24_printpdf_edituser.png)
+*Print PDF and edit user page*
 
 ![Thank You Page](public/images/documentation/22.jpg)
 *Thank you page with order confirmation and navigation*
