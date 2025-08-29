@@ -2,6 +2,16 @@
 
 This is a modern restaurant management system built with Next.js 15.3.4 and React 19. The project provides a complete solution for restaurant operations including menu management, ordering system, and admin dashboard.
 
+## LIVE DEMO
+
+You can access the live demo of the Ramen President Restaurant Management System at: [Ramen President Live Demo](https://final-project-fe-agusadico-git-main-agus-purwadis-projects.vercel.app/)
+
+<button>
+  <a href="https://final-project-fe-agusadico-git-main-agus-purwadis-projects.vercel.app/">
+    Live Demo
+  </a>
+</button>
+
 ## Features
 
 - **Interactive Menu**: Browse and filter menu items by category
