@@ -7,7 +7,7 @@ This is a modern restaurant management system built with Next.js 15.3.4 and Reac
 You can access the live demo of the Ramen President Restaurant Management System at: [Ramen President Live Demo](https://final-project-fe-agusadico.vercel.app/)
 
 <button>
-  <a href="https://final-project-fe-agusadico-git-main-agus-purwadis-projects.vercel.app/">
+  <a href="https://final-project-fe-agusadico.vercel.app/">
     Live Demo
   </a>
 </button>
